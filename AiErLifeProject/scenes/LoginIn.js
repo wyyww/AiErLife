@@ -17,6 +17,7 @@ import {
 import Logo from '../images/logo.png';
 import IconAccountnumber from '../images/icon_accountnumber.png';
 var Dimensions = require('Dimensions');//获取Dimensions库得到屏幕的宽高
+let {height, width} = Dimensions.get('window')
 
 export default class LoginIn extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ export default class LoginIn extends Component {
     //跳转到爱尔生活界面
     _onButtonClickToAiErLife() {
         const { navigate } = this.props.navigation;
-        navigate('AiErLife');
+        navigate('AiErHomeTabNavigator');
     }
 
 
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
-        width: 250,
+        width: 2*width/3,
     },
     topLevelStatus:{
         marginTop:50,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     },
     btn: {
         borderWidth: 1,
-        width: 250,
+        width: 2*width/3,
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     loginBg:{
-        width:Dimensions.get('window').width,
+        width:width,
         // height:400,
         resizeMode:'contain',
     },

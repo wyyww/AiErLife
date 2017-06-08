@@ -14,14 +14,19 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { TabNavigator } from "react-navigation";
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
+
 
 export default class AiErLife extends Component {
 
     static navigationOptions={
         title:'爱尔生活',
+        header:{
+            title:'我的艾尔生活棒棒哒'
+        }
     };
 
     constructor(props){
@@ -30,27 +35,28 @@ export default class AiErLife extends Component {
         this.state={
             dataSource:listData.cloneWithRows([{
                     name:'邱红涛',
+                    imageSrc:'../images/ben.png',
                     clinic:"产科 医事",
                     hospital:"西北妇女儿童医院",
                     description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
                 },
                 {
                     name:"邱红涛",
-                    imageSrc:"../images/ben.png",
+                    imageSrc:'../images/ben.png',
                     clinic:"产科 医事",
                     hospital:"西北妇女儿童医院",
                     description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
                 },
                 {
                     name:'邱红涛',
-                    imageSrc:"../images/ben.png",
+                    imageSrc:'../images/ben.png',
                     clinic:"产科 医事",
                     hospital:"西北妇女儿童医院",
                     description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
                 },
                 {
                     name:'邱红涛',
-                    imageSrc:"../images/ben.png",
+                    imageSrc:'../images/ben.png',
                     clinic:"产科 医事",
                     hospital:"西北妇女儿童医院",
                     description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
@@ -58,7 +64,6 @@ export default class AiErLife extends Component {
             )
         }
     }
-
 
   //返回到登录界面
     _onButtonClickBackToLoginIn(){
@@ -88,12 +93,18 @@ export default class AiErLife extends Component {
     _renderRow(rowData){
         return (
             <TouchableHighlight onPress={() => {this._onPressRow}}>
-                <View>
-                    <Text>{rowData.name}</Text>
-                    <Text>{rowData.hospital}</Text>
-                    <Text>{rowData.clinic}</Text>
-                    <Text>{rowData.description}</Text>
-                    <Image source={rowData.imageSrc} style={{width:100,height:100}}/>
+                <View style={styles.list_frame}>
+                    <View style={styles.list_icon}>
+                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                    </View>
+                    <View style={{paddingLeft:3}}>
+                        <View style={{flexDirection:'row',}}>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
+                            <Text>{rowData.clinic}</Text>
+                        </View>
+                        <Text>{rowData.hospital}</Text>
+                        <Text>{rowData.description}</Text>
+                    </View>
                 </View>
             </TouchableHighlight >
         )
@@ -103,7 +114,7 @@ export default class AiErLife extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                <Image style={styles.home_banner} source={require('../images/pic_home_banner.png')} />
                 <View style={{flexDirection:'row'}}>
                     <View style={styles.header_nav}>
@@ -116,8 +127,8 @@ export default class AiErLife extends Component {
                             </View>
                     </View>
                     <View style={styles.header_nav}>
-                            <View  style={styles.header_nav_left}>
-                                <Text style={styles.header_nav_left_topic}>爱尔诊所</Text>
+                            <View  style={styles.header_nav_left} >
+                                <Text style={styles.header_nav_left_topic} onPress={this._onButtonClickToAiErClnic.bind(this)}>爱尔诊所</Text>
                                 <Text>名医坐诊</Text>
                             </View>
                             <View >
@@ -145,18 +156,16 @@ export default class AiErLife extends Component {
                         </View>
                     </View>
                 </View>
+                <View style={styles.doctor_top}>
+                    <Text >名医联盟推荐医生</Text >
+                </View>
                 <View style={{flex: 1, paddingTop: 22}}>
                     <ListView
                         dataSource={this.state.dataSource}
-                        renderRow={this._renderRow}
+                        renderRow={this._renderRow.bind(this)}
                     />
                 </View>
-                <Button title="返回到登录界面" onPress={this._onButtonClickBackToLoginIn.bind(this)}/>
-                <Button title=" 跳转到爱尔诊所" onPress={this._onButtonClickToAiErClnic.bind(this)}></Button>
-                <Button title=" 跳转到我的服务" onPress={this._onButtonClickToClinicIntroduction.bind(this)}></Button>
-                <Button title=" 跳转到个人中心" onPress={this._onButtonClickToUserPersonalInformation.bind(this)}></Button>
-            </View>
-
+            </ScrollView>
         );
     }
 }
@@ -169,7 +178,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     home_banner: {
-        height:130,
+        height:150,
     },
     header_nav:{
         width:screenW/2,
@@ -190,5 +199,27 @@ const styles = StyleSheet.create({
         marginTop:10,
         width:40,
         height:40,
+    },
+    doctor_top:{
+        width:screenW,
+        height:30,
+        marginTop:5,
+        padding:10,
+        justifyContent:'flex-start',
+    },
+    list_frame:{
+        width:screenW,
+        height:130,
+        borderTopWidth:1,
+        flexDirection:'row',
+        padding:20,
+    },
+    list_icon:{
+        width:100,
     }
 });
+
+{/*<Button title="返回到登录界面" onPress={this._onButtonClickBackToLoginIn.bind(this)}/>*/}
+{/*<Button title=" 跳转到爱尔诊所" onPress={this._onButtonClickToAiErClnic.bind(this)}></Button>*/}
+{/*<Button title=" 跳转到我的服务" onPress={this._onButtonClickToClinicIntroduction.bind(this)}></Button>*/}
+{/*<Button title=" 跳转到个人中心" onPress={this._onButtonClickToUserPersonalInformation.bind(this)}></Button>*/}

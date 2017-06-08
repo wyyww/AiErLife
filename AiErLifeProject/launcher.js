@@ -26,6 +26,7 @@ import UserMyAppointment from './scenes/UserMyAppointment';
 import UserPayment from './scenes/UserPayment';
 import UserPersonalCenter from './scenes/UserPersonalCenter';
 import UserPersonalInformation from './scenes/UserPersonalInformation';
+import AiErHomeTabNavigator from './scenes/plugins/AiErHomeTabNavigator';
 
 const AiErLifeProject=StackNavigator({
     LoginIn:{ screen: LoginIn },                                                 //登录界面
@@ -47,5 +48,7 @@ const AiErLifeProject=StackNavigator({
     UserPayment:{screen:UserPayment},                                           //用户支付界面
     UserPersonalCenter:{screen:UserPersonalCenter},                             //个人信息
     UserPersonalInformation:{screen:UserPersonalInformation},                       //用户中心
+
+    AiErHomeTabNavigator:{screen:AiErHomeTabNavigator },                          //主页底部导航栏，插件
 })
 AppRegistry.registerComponent('AiErLifeProject', () => AiErLifeProject);
