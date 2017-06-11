@@ -26,8 +26,11 @@ import UserMyAppointment from './scenes/UserMyAppointment';
 import UserPayment from './scenes/UserPayment';
 import UserPersonalCenter from './scenes/UserPersonalCenter';
 import UserPersonalInformation from './scenes/UserPersonalInformation';
-import AiErHomeTabNavigator from './scenes/plugins/AiErHomeTabNavigator';
 
+import ItemCell from './scenes/plugins/ItemCell'
+
+import AiErHomeNavigationTabNavigator from './scenes/plugins/AiErHomeNavigationTabNavigator'
+// import AiErHomeTabNavigator from './scenes/plugins/AiErHomeTabNavigator';            这个暂时不可用，react-native-tab-navigaator和react-navigation可能不能一起使用
 const AiErLifeProject=StackNavigator({
     LoginIn:{ screen: LoginIn },                                                 //登录界面
     ResetPassword:{ screen:ResetPassword },                                      //重置密码
@@ -49,6 +52,8 @@ const AiErLifeProject=StackNavigator({
     UserPersonalCenter:{screen:UserPersonalCenter},                             //个人信息
     UserPersonalInformation:{screen:UserPersonalInformation},                       //用户中心
 
-    AiErHomeTabNavigator:{screen:AiErHomeTabNavigator },                          //主页底部导航栏，插件
+    AiErHomeNavigationTabNavigator:{screen:AiErHomeNavigationTabNavigator},           //三大主题底部导航
+    // AiErHomeTabNavigator:{screen:AiErHomeTabNavigator },                          //主页底部导航栏，插件
+    ItemCell:{screen:ItemCell}                                                  //个人中心添加对的插件，不知道能不能解决无法跳转问题
 })
 AppRegistry.registerComponent('AiErLifeProject', () => AiErLifeProject);

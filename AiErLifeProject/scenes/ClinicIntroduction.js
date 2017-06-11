@@ -18,7 +18,9 @@ export default class ClinicIntroduction extends Component {
 
     constructor(props){
         super(props);
-     
+     this.state={
+
+     }
     }
 
     //跳转到诊室详情

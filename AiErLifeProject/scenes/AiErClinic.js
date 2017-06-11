@@ -10,10 +10,13 @@ import {
     ListView,
     TextInput,
     Image,
+    Alert,
     TouchableHighlight,
     TouchableOpacity,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
+
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
@@ -52,18 +55,15 @@ export default class AiErClinic extends Component {
     }
 
 
-    //跳转到某一个具提的诊室
-    _onButtonClickToClinicIntroduction() {
-         const {navigate} =this.props.navigation;
-        navigate('ClinicIntroduction');
-    }
+    //跳转到某一个具提的诊室的详细介绍
     _onPressRow(){
+       console.log(this.props)
         const {navigate} =this.props.navigation;
         navigate('ClinicIntroduction');
     }
     _renderRow(rowData){
         return (
-            <TouchableHighlight onPress={() => {this._onPressRow}}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
@@ -73,7 +73,7 @@ export default class AiErClinic extends Component {
                             <Text style={{fontSize:15,fontWeight:'400',paddingRight:20}}>{rowData.clinicName}</Text>
                             <Text>{rowData.threeDoctorsNumber}位三甲医生</Text>
                         </View>
-                        <TouchableOpacity  style={[styles.list_btn,{activeOpacity:0.8}]}  >
+                        <TouchableOpacity  style={styles.list_btn}  >
                             <Text>{rowData.clinicIndication}</Text>
                         </TouchableOpacity>
                         <Text>{rowData.clinicAddress}</Text>
@@ -89,7 +89,6 @@ export default class AiErClinic extends Component {
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
                 />
-                <Button title="跳转到具提一个诊室" onPress={this._onButtonClickToClinicIntroduction.bind(this)} />
             </View>
         );
     }
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
         height:20,
         margin:5,
         backgroundColor:'#00ffff',
-        textAlign:'center',
     },
     list_frame:{
         width:screenW,

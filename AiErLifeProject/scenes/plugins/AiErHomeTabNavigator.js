@@ -12,21 +12,21 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 
 // 引入三个导航组件
-
 import AiErLife from '../AiErLife';
 import MyServiceDoctor from '../MyServiceDoctor';
 import UserPersonalInformation from '../UserPersonalInformation';
 
 export default class AiErHomeTabNavigator  extends Component{
 
-        constructor(props){
-            super(props);
+    constructor(props) {
+       super(props)
             this.state={
                 selectedTab:'首页', //默认页面为“首页”
             }
         }
 
         render(){
+            const { navigate } =this.props.navigation;
             return(
                 <View style={styles.container}>
                     <TabNavigator>
@@ -44,16 +44,16 @@ export default class AiErHomeTabNavigator  extends Component{
                             title="我的服务"
                             renderIcon={() => <Image style={styles.icon} source={require('../../images/ic_nor_service.png')} />}
                             renderSelectedIcon={() => <Image style={styles.icon} source={require('../../images/ic_press_service.png')} />}
-                            // renderBadge={() => <MyServiceDoctor />}
-                            onPress={() => this.setState({ selectedTab: '我的服务' })}>
+                            onPress={() =>{
+                                this.setState({ selectedTab: '我的服务'});
+                            }}>
                             <MyServiceDoctor />
                         </TabNavigator.Item>
                         <TabNavigator.Item
                             selected={this.state.selectedTab === '个人中心'}
                             title="个人中心"
-                            renderIcon={() => <Image style={styles.icon} source={require('../../images/ic_nor_service.png')} />}
-                            renderSelectedIcon={() => <Image style={styles.icon} source={require('../../images/ic_press_service.png')} />}
-                            // renderBadge={() => <UserPersonalInformation />}
+                            renderIcon={() => <Image style={styles.icon} source={require('../../images/ic_nor_me.png')} />}
+                            renderSelectedIcon={() => <Image style={styles.icon} source={require('../../images/ic_press_me.png')} />}
                             onPress={() => this.setState({ selectedTab: '个人中心' })}>
                             <UserPersonalInformation />
                         </TabNavigator.Item>

@@ -12,6 +12,7 @@ import {
     Image,
     TouchableHighlight,
     Alert,
+    ActivityIndicator
 } from 'react-native';
 
 import Logo from '../images/logo.png';
@@ -20,6 +21,7 @@ var Dimensions = require('Dimensions');//获取Dimensions库得到屏幕的宽�
 let {height, width} = Dimensions.get('window')
 
 export default class LoginIn extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -39,11 +41,14 @@ export default class LoginIn extends Component {
         navigate('RegisteredUser');
     }
 
-    //跳转到爱尔生活界面
+
+    //跳转到底部导航，三层路由界面
     _onButtonClickToAiErLife() {
         const { navigate } = this.props.navigation;
-        navigate('AiErHomeTabNavigator');
+        navigate('AiErHomeNavigationTabNavigator');
+        // navigate('AiErHomeTabNavigator');
     }
+
 
 
     render() {
@@ -77,6 +82,11 @@ export default class LoginIn extends Component {
                 <TouchableHighlight   onPress={this._onButtonClickToAiErLife.bind(this)} style={[styles.btn, styles.topStatus]}>
                     <Text>登录</Text>
                 </TouchableHighlight>
+                {/*<ActivityIndicator animating={this.state.animating} style={{*/}
+                    {/*alignItems: 'center',*/}
+                    {/*justifyContent: 'center',*/}
+                    {/*padding: 8,*/}
+                {/*height:20}} size="large"/>*/}
                 <TouchableHighlight accessibilityLabel="See an informative alert" >
                     <View style={styles.horizontal}>
                         <Text style={{ color: '#808080'}} onPress={this._onButtonClickToResetPossword.bind(this)}>忘记密码? </Text>

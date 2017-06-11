@@ -11,10 +11,13 @@ import {
     TextInput,
     ScrollView,
     ListView,
+    Alert,
     TouchableHighlight
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+
+
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
@@ -23,13 +26,10 @@ const screenW = Dimensions.get('window').width;
 export default class AiErLife extends Component {
 
     static navigationOptions={
-        title:'爱尔生活',
-        header:{
-            title:'我的艾尔生活棒棒哒'
-        }
+        title:'主页',
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         const listData=new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
         this.state={
@@ -61,9 +61,11 @@ export default class AiErLife extends Component {
                     hospital:"西北妇女儿童医院",
                     description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
                 }]
-            )
+            ),
         }
     }
+
+
 
   //返回到登录界面
     _onButtonClickBackToLoginIn(){
@@ -73,26 +75,16 @@ export default class AiErLife extends Component {
     }
 
     //跳转到爱尔诊所
-    _onButtonClickToAiErClnic(){
+    _onButtonClickNavigateToAiErClnic(){
+        // console.log(this.props)
         const { navigate } =this.props.navigation;
         navigate('AiErClinic');
     }
 
-    //跳转到我的服务
-    _onButtonClickToClinicIntroduction(){
-        const { navigate } =this.props.navigation;
-        navigate('ClinicIntroduction');
-    }
-
-    //跳转到个人中心
-    _onButtonClickToUserPersonalInformation(){
-        const { navigate } =this.props.navigation;
-        navigate('UserPersonalInformation');
-    }
 
     _renderRow(rowData){
         return (
-            <TouchableHighlight onPress={() => {this._onPressRow}}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
@@ -128,7 +120,7 @@ export default class AiErLife extends Component {
                     </View>
                     <View style={styles.header_nav}>
                             <View  style={styles.header_nav_left} >
-                                <Text style={styles.header_nav_left_topic} onPress={this._onButtonClickToAiErClnic.bind(this)}>爱尔诊所</Text>
+                                    <Text style={styles.header_nav_left_topic} onPress={this._onButtonClickNavigateToAiErClnic.bind(this)}>爱尔诊所</Text>
                                 <Text>名医坐诊</Text>
                             </View>
                             <View >
@@ -218,8 +210,3 @@ const styles = StyleSheet.create({
         width:100,
     }
 });
-
-{/*<Button title="返回到登录界面" onPress={this._onButtonClickBackToLoginIn.bind(this)}/>*/}
-{/*<Button title=" 跳转到爱尔诊所" onPress={this._onButtonClickToAiErClnic.bind(this)}></Button>*/}
-{/*<Button title=" 跳转到我的服务" onPress={this._onButtonClickToClinicIntroduction.bind(this)}></Button>*/}
-{/*<Button title=" 跳转到个人中心" onPress={this._onButtonClickToUserPersonalInformation.bind(this)}></Button>*/}

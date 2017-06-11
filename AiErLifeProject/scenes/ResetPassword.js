@@ -81,10 +81,10 @@ export default class ResetPassword extends Component {
                             onChangeText={(userPassword) => this.setState({ userPassword })} />
                     </View>
                 </View>
-                <TouchableHighlight style={{ borderWidth: 1 }} onPress={this._onButtonClickToResetPassword.bind(this)} style={[styles.btn, styles.topStatus]}>
+                <TouchableHighlight onPress={this._onButtonClickToResetPassword.bind(this)} style={[styles.btn, styles.topStatus,{ borderWidth: 1 }]}>
                     <Text>重置</Text>
                 </TouchableHighlight>
-                 <TouchableHighlight style={{ borderWidth: 1 }} style={[styles.btn, styles.topStatus]}>
+                 <TouchableHighlight style={[styles.btn, styles.topStatus,{ borderWidth: 1 }]}>
                     <Text>取消</Text>
                 </TouchableHighlight>
             </View>
