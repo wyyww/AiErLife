@@ -24,33 +24,54 @@ const AiErHomeNavigationTabNavigator=TabNavigator({
     AiErLife:{screen:AiErLife,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel:  '主页',
-            tabBarIcon: () => (
-                <Image
-                    source={require('../../images/ic_nor_home.png')}
-                    style={[styles.icon]}
-                />
+            tabBarIcon: ({tintColor,focused}) => (
+                focused
+                    ?
+                    <Image
+                        source={require('../../images/ic_press_home.png')}
+                        style={[styles.icon]}
+                    />
+                    :
+                    <Image
+                        source={require('../../images/ic_nor_home.png')}
+                        style={[styles.icon]}
+                    />
             ),
         }
     },
     MyServiceDoctor:{screen:MyServiceDoctor,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel:  '我的服务',
-            tabBarIcon: () => (
-                <Image
-                    source={require('../../images/ic_nor_service.png')}
-                    style={[styles.icon]}
-                />
+            tabBarIcon: ({tintColor,focused}) => (
+                focused
+                    ?
+                    <Image
+                        source={require('../../images/ic_press_service.png')}
+                        style={[styles.icon]}
+                    />
+                    :
+                    <Image
+                        source={require('../../images/ic_nor_service.png')}
+                        style={[styles.icon]}
+                    />
             ),
         }
     },
     UserPersonalInformation:{screen:UserPersonalInformation,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel:  '个人中心',
-            tabBarIcon: () => (
-                <Image
-                    source={require('../../images/ic_nor_me.png')}
-                    style={[styles.icon]}
-                />
+            tabBarIcon: ({tintColor,focused}) => (
+                focused
+                    ?
+                    <Image
+                        source={require('../../images/ic_press_me.png')}
+                        style={[styles.icon]}
+                    />
+                    :
+                    <Image
+                        source={require('../../images/ic_nor_me.png')}
+                        style={[styles.icon]}
+                    />
             ),
         }
     },
@@ -60,7 +81,7 @@ const AiErHomeNavigationTabNavigator=TabNavigator({
     swipeEnabled: true, // 是否可以左右滑动切换tab
     backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
     tabBarOptions: {
-        activeTintColor: '#ff8500', // 文字和图片选中颜色
+        activeTintColor: '#999', // 文字和图片选中颜色
         inactiveTintColor: '#999', // 文字和图片未选中颜色
         showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
         indicatorStyle: {
@@ -78,8 +99,8 @@ const AiErHomeNavigationTabNavigator=TabNavigator({
 
 const styles=StyleSheet.create({
     icon:{
-        height:24,
-        width:24
+        height:26,
+        width:26
     }
 })
 

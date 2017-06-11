@@ -65,8 +65,8 @@ class Confirmed extends React.Component {
                 serviceTime:"2017-07-16 17:00:00"
             },]),
         };
-    }
-    _renderRow(rowData){
+     }
+   _renderRow(rowData){
         return (
             <TouchableHighlight onPress={() => this._onPressRow}>
                 <View style={styles.list_frame}>

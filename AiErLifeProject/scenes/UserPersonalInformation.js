@@ -30,17 +30,6 @@ export default class UserPersonalInformation extends Component {
     }
     //跳转到个人信息
     _onButtonClickToUserPersonalCenter(){
-        // console.log('dhkj');
-        // const navigateAction = NavigationActions.navigate({
-        //
-        //     routeName: 'UserPersonalCenter',
-        //
-        //     params: {},
-        //
-        //     action: NavigationActions.navigate({ routeName: 'UserPersonalCenter'})
-        // })
-        //
-        // this.props.navigation.dispatch(navigateAction)
         const { navigate } =this.props.navigation;
         navigate('UserPersonalCenter');
     }
@@ -77,8 +66,7 @@ export default class UserPersonalInformation extends Component {
                         </View>
                     </TouchableHighlight>
                 <ItemCell
-                    onPress={() => this._onButtonClickToUserPersonalCenter}
-                    // this._onButtonClickToUserPersonalCenter.bind(this)
+                    onPress={this._onButtonClickToUserPersonalCenter.bind(this)}
                     showDisclosureIndicator={false}
                     showBottomBorder={false}
                     iconStyle={itemCellColor.feedbackIcon}
@@ -166,11 +154,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     tweetContainer:{
-        flex:1,
+        flexGrow:1,
         flexDirection:'row',
         alignItems:'center',
         backgroundColor:'white',
@@ -212,7 +199,6 @@ const styles = StyleSheet.create({
         paddingBottom:8,
         borderRadius:4,
         alignItems:'center',
-        marginTop:20
     },
     logoutButtonFontSize:{
         fontSize:18,

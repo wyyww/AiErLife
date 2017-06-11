@@ -33,20 +33,20 @@ export default class UserPersonalCenter extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.selfMessage}>
-                    <Text>闻国龙</Text>
-                    <TextInput/>
+                    <Text>姓名</Text>
+                    <TextInput style={styles.textContainer} underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>身份证</Text>
-                    <TextInput/>
+                    <TextInput style={styles.textContainer} underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>性别</Text>
-                    <TextInput/>
+                    <TextInput style={styles.textContainer} />
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>地址</Text>
-                    <TextInput/>
+                    <TextInput style={styles.textContainer}  underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.warmPrompt}>
                     <Text>温馨提示</Text>
@@ -66,35 +66,45 @@ export default class UserPersonalCenter extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     selfMessage:{
-        flexGrow:1,
+        // flexGrow:1,
         flexDirection:'row',
         alignItems:'center',
         borderBottomWidth:1,
-        width:width,
-        padding:5,
+        height:50,
+        margin:5,
+        width:width-20,
+        // padding:5,
+    },
+    textContainer:{
+        width:width/2,
+        padding:0,
+        marginLeft:50,
+        alignSelf:'center'
     },
     warmPrompt:{
-        flexGrow:1,
         justifyContent:'flex-start',
-        alignItems:'center',
+        alignItems:'flex-start',
         borderWidth:1,
         borderRadius:4,
         margin:5,
+        height:50,
     },
     lugoutButton:{
         backgroundColor:'#40e0d0',
         borderWidth:0,
-        margin:10,
+        margin:5,
         paddingTop:8,
         paddingBottom:8,
         borderRadius:4,
         alignItems:'center',
-        marginTop:20
+        marginTop:20,
+        width:width-20,
+
     },
     logoutButtonFontSize:{
         fontSize:18,
