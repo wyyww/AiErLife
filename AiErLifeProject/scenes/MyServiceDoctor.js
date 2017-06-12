@@ -110,7 +110,7 @@ class WaitForConfirme extends React.Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows([{
-                name:'邓医生（新生儿）',
+                name:'朱洁干嘛呢（新生儿）',
                 imageSrc:'../images/ben.png',
                 doctorLevel:"医师",
                 address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
@@ -189,7 +189,7 @@ class WaitForReferral extends React.Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows([{
-                name:'邓医生（新生儿）',
+                name:'牛奶稀饭（新生儿）',
                 imageSrc:'../images/ben.png',
                 doctorLevel:"医师",
                 address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
@@ -269,7 +269,7 @@ class WaitForPay extends React.Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows([{
-                name:'邓医生（新生儿）',
+                name:'620节日（新生儿）',
                 imageSrc:'../images/ben.png',
                 doctorLevel:"医师",
                 address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",

@@ -40,16 +40,16 @@ export default class AiErClinic extends Component {
                     clinicAddress:'后宰门130号创之星大厦一单元122（中户）'
                 }, {
                     imageSrc:'',
-                    clinicName:'爱尔诊所后宰门诊所',
+                    clinicName:'爱尔诊所西电诊所',
                     threeDoctorsNumber:9,
-                    clinicIndication:'口腔科',
-                    clinicAddress:'后宰门130号创之星大厦一单元122（中户）'
+                    clinicIndication:'牙科',
+                    clinicAddress:'西安长安区兴隆街道266号'
                 },{
                     imageSrc:'',
-                    clinicName:'爱尔诊所后宰门诊所',
+                    clinicName:'爱尔诊所南门诊所',
                     threeDoctorsNumber:9,
-                    clinicIndication:'口腔科',
-                    clinicAddress:'后宰门130号创之星大厦一单元122（中户）'
+                    clinicIndication:'儿科',
+                    clinicAddress:'西安永宁门130号向富楼对面'
                 },]),
         };
     }
@@ -57,7 +57,7 @@ export default class AiErClinic extends Component {
 
     //跳转到某一个具提的诊室的详细介绍
     _onPressRow(){
-       console.log(this.props)
+       // console.log(this.props)
         const {navigate} =this.props.navigation;
         navigate('ClinicIntroduction');
     }
@@ -65,7 +65,7 @@ export default class AiErClinic extends Component {
         return (
             <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
-                    <View style={styles.list_icon}>
+                    <View style={styles.list_icon_space}>
                         <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
@@ -73,9 +73,9 @@ export default class AiErClinic extends Component {
                             <Text style={{fontSize:15,fontWeight:'400',paddingRight:20}}>{rowData.clinicName}</Text>
                             <Text>{rowData.threeDoctorsNumber}位三甲医生</Text>
                         </View>
-                        <TouchableOpacity  style={styles.list_btn}  >
-                            <Text>{rowData.clinicIndication}</Text>
-                        </TouchableOpacity>
+                        <View  style={styles.list_btn}  >
+                            <Text style={styles.text_color}>{rowData.clinicIndication}</Text>
+                        </View>
                         <Text>{rowData.clinicAddress}</Text>
                     </View>
                 </View>
@@ -102,19 +102,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     list_btn:{
-        width:40,
-        height:20,
+        width:60,
+        padding:3,
         margin:5,
-        backgroundColor:'#00ffff',
+        backgroundColor:'#1e90ff',
+    },
+    text_color:{
+        alignSelf:'center',
+        color:'white',
     },
     list_frame:{
         width:screenW,
-        height:130,
-        borderTopWidth:1,
+        height:100,
+        borderBottomWidth:1,
         flexDirection:'row',
-        padding:20,
+        padding:10,
     },
-    list_icon:{
+    list_icon_space:{
         width:100,
     }
 });

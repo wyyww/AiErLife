@@ -20,7 +20,7 @@ import { TabNavigator } from "react-navigation";
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
-const screenW = Dimensions.get('window').width;
+const {width,height} = Dimensions.get('window');
 
 
 export default class AiErLife extends Component {
@@ -76,7 +76,7 @@ export default class AiErLife extends Component {
 
     //跳转到爱尔诊所
     _onButtonClickNavigateToAiErClnic(){
-        // console.log(this.props)
+        // console.log('sffsd')
         const { navigate } =this.props.navigation;
         navigate('AiErClinic');
     }
@@ -118,7 +118,7 @@ export default class AiErLife extends Component {
                                 <Image style={styles.header_nav_banner} source={require('../images/icon_fuzhen.png')}/>
                             </View>
                     </View>
-                    <View style={styles.header_nav}>
+                    <View style={styles.header_nav} >
                             <View  style={styles.header_nav_left} >
                                     <Text style={styles.header_nav_left_topic} onPress={this._onButtonClickNavigateToAiErClnic.bind(this)}>爱尔诊所</Text>
                                 <Text>名医坐诊</Text>
@@ -168,12 +168,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+        height:height,
     },
     home_banner: {
         height:150,
     },
     header_nav:{
-        width:screenW/2,
+        width:width/2,
         flexDirection:'row',
         justifyContent:'center',
         borderWidth:1,
@@ -193,14 +194,14 @@ const styles = StyleSheet.create({
         height:40,
     },
     doctor_top:{
-        width:screenW,
+        width:width,
         height:30,
         marginTop:5,
         padding:10,
         justifyContent:'flex-start',
     },
     list_frame:{
-        width:screenW,
+        width:width,
         height:130,
         borderTopWidth:1,
         flexDirection:'row',
