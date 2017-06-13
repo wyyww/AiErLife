@@ -1,5 +1,5 @@
 
-//某一具体科室里面医生的大体介绍，，可以跳转到某一个医生信息介绍
+//某一具体科室里面医生的大体介绍，，可以跳转到某一个医生信息介绍bing
 import React,{ Component } from 'react';
 import {
     StyleSheet,
@@ -13,7 +13,7 @@ import { NavigationActions } from 'react-navigation';
 export default class DepartmentDoctorsIntroduced extends Component {
 
     static navigationOptions={
-        title:'科室医生列表',
+        title:'科室医生',
     };
 
     constructor(props){

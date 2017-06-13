@@ -45,9 +45,7 @@ export default class ClinicDetails extends Component {
                         <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
-                        {/*<View style={{flexDirection:'row',}}>*/}
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.clinicSectionDoctorName}</Text>
-                        {/*</View>*/}
+                        <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.clinicSectionDoctorName}</Text>
                         <Text>{rowData.clinicName}</Text>
                         <Text>{rowData.clinicSectionDescription}</Text>
                     </View>
@@ -58,7 +56,10 @@ export default class ClinicDetails extends Component {
     //科室医生列表
     _onPressRow(){
         const { navigate } =this.props.navigation;
-        navigate('DepartmentDoctorsIntroduced');
+        navigate('DoctorSpecificIntroduction');
+
+        //这个界面貌似是多余的，写着看吧，暂时被抛弃不需要了
+        // navigate('DepartmentDoctorsIntroduced');
     }
 
     render() {
@@ -74,7 +75,7 @@ export default class ClinicDetails extends Component {
 const styles = StyleSheet.create({
     list_frame:{
         width:width,
-        height:130,
+        height:110,
         borderBottomWidth:1,
         flexDirection:'row',
         padding:15,
