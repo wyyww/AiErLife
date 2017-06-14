@@ -12,6 +12,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
 
 let Dimensions=require('Dimensions');
 var {height, width} = Dimensions.get('window');
@@ -25,8 +26,14 @@ export default class AddContacts extends Component {
     constructor(props){
         super(props);
         this.state={
-
+            text:''
         }
+    }
+
+    onSelect(index, value){
+        this.setState({
+            text: `Selected index: ${index} , value: ${value}`
+        })
     }
 
     render() {
@@ -42,7 +49,15 @@ export default class AddContacts extends Component {
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>性别</Text>
-                    <TextInput style={styles.textContainer} />
+                    <RadioGroup style={{flexDirection:'row'}} onSelect = {(index, value) => this.onSelect(index, value)}>
+                        <RadioButton value={'男'} >
+                            <Text>男</Text>
+                        </RadioButton>
+                        <RadioButton value={'女'}>
+                            <Text>女</Text>
+                        </RadioButton>
+                    </RadioGroup>
+                    {/*<Text style={styles.text}>{this.state.text}</Text>*/}
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>联系电话</Text>
@@ -50,7 +65,7 @@ export default class AddContacts extends Component {
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>地址</Text>
-                    <TextInput style={styles.textContainer}  underlineColorAndroid="transparent"/>
+                    <TextInput style={styles.textContainer}   underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.warmPrompt}>
                     <Text>温馨提示</Text>

@@ -95,7 +95,7 @@ export default class RegisteredUser extends Component {
                             onChangeText={(invitationCode) => this.setState({ invitationCode })} />
                     </View>
                 </View>
-                <TouchableHighlight style={{ borderWidth: 1 }} onPress={this._onButtonClickToRegisteredUser.bind(this)} style={[styles.btn, styles.topStatus]}>
+                <TouchableHighlight onPress={this._onButtonClickToRegisteredUser.bind(this)} style={[styles.btn, styles.topStatus,{borderWidth: 1 }]}>
                     <Text>注册</Text>
                 </TouchableHighlight>
             </View>

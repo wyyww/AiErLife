@@ -19,7 +19,7 @@ export default class FamilyContactPerson extends Component {
 
     static navigationOptions={
         headerTitle:'家庭联系人',
-        headerBackTitle:'个人中心',
+        // headerBackTitle:'个人中心',
         headerRight:<Button title="添加" onPress={()=>{
             //添加新的家庭联系人
             const { navigate } =thes.props.navigation;

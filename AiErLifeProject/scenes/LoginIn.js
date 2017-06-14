@@ -20,6 +20,10 @@ import IconAccountnumber from '../images/icon_accountnumber.png';
 var Dimensions = require('Dimensions');//获取Dimensions库得到屏幕的宽高
 let {height, width} = Dimensions.get('window')
 
+//网络请求组件
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
+
 export default class LoginIn extends Component {
 
     constructor(props) {
@@ -44,9 +48,16 @@ export default class LoginIn extends Component {
 
     //跳转到底部导航，三层路由界面
     _onButtonClickToAiErLife() {
+
+        let params={
+            'username':this.state.userNumber,
+            'password':this.state.userPassword,
+        }
+        // NetUitl.post(API.APIList.authenticate,params,function(responseData){
+        //     console.log(responseData);
+        // })
         const { navigate } = this.props.navigation;
         navigate('AiErHomeNavigationTabNavigator');
-        // navigate('AiErHomeTabNavigator');
     }
 
 
@@ -64,6 +75,7 @@ export default class LoginIn extends Component {
                             style={styles.userInput}
                             placeholder="请输入手机号"
                             underlineColorAndroid="transparent"
+                            value={this.state.userNumber}
                             onChangeText={(userNumber) => this.setState({ userNumber })} />
                     </View>
                 </View>
@@ -76,6 +88,7 @@ export default class LoginIn extends Component {
                             style={styles.userInput}
                             placeholder="请输入密码"
                             underlineColorAndroid="transparent"
+                            value={this.state.userPassword}
                             onChangeText={(userPassword) => this.setState({ userPassword })} />
                     </View>
                 </View>
