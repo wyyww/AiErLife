@@ -9,8 +9,8 @@ import {
     Button,
     TextInput
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-
+import { MapView, MapTypes, MapModule, Geolocation } from 'react-native-baidu-map'
+import BaiduMapDemo from './plugins/BaiduMapDemo';
 export default class ClinicAddress extends Component {
 
     static navigationOptions={
@@ -23,9 +23,7 @@ export default class ClinicAddress extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>诊所地址</Text>
-            </View>
+           <BaiduMapDemo />
         );
     }
 }

@@ -48,17 +48,10 @@ export default class ClinicIntroduction extends Component {
         };
     }
 
-    //跳转到诊室详情
+    //跳转到诊室详情   ,这个页面好像多余的，不跳过去了
     _onButtonClickToClinicDetails(){
         const { navigate } =this.props.navigation;
         navigate('ClinicDetails');
-    }
-
-    //跳转到诊室地址
-    _onButtonClickToClinicAddress(){
-        console.log('sdf')
-        // const { navigate } =this.props.navigation;
-        // navigate('ClinicAddress');
     }
 
     _renderRow(rowData){

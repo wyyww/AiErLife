@@ -67,7 +67,7 @@ export default class NetUitl extends React.Component{
                 console.log(responseData);
                 callback(responseData);
             }).catch((error)=>{
-                console.log(error)
+                console.log(error);
             })
         }
     // static post(url, params, callback) {
