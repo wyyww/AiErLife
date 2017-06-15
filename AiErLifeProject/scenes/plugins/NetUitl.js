@@ -64,32 +64,10 @@ export default class NetUitl extends React.Component{
                 console.log(response);
                 return response.json();
             }).then((responseData)=>{
-                console.log(responseData);
                 callback(responseData);
             }).catch((error)=>{
                 console.log(error);
             })
         }
-    // static post(url, params, callback) {
-    //     console.log(params);
-    //     let res = '';
-    //     for (let i in params) {
-    //         res += '&' + i + '=' + params[i];
-    //     }
-    //     let paramsString = res.substring(1);
-    //     fetch(url, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //         body: paramsString
-    //     }).then((response) => {return response.json()}
-    //     ).then((responseData) => {
-    //         callback(responseData);
-    //     }).catch((error) => {
-    //         console.error(error);
-    //     });
-    //
-    // }
 
 }

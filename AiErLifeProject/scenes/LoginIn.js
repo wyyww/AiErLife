@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
+    AsyncStorage,
     Text,
     View,
     Button,
@@ -14,6 +15,7 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 
 import Logo from '../images/logo.png';
 import IconAccountnumber from '../images/icon_accountnumber.png';
@@ -29,8 +31,10 @@ export default class LoginIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userNumber: '15529625328',
-            userPassword: '000000',
+            userNumber: '15029972629',
+            userPassword: '111111',
+            circleSize:0,
+            animating:true,
         }
     }
 
@@ -48,16 +52,46 @@ export default class LoginIn extends Component {
 
     //跳转到底部导航，三层路由界面
     _onButtonClickToAiErLife() {
-
+        this.setState({
+            circleSize:'large'
+        })
         let params={
             'username':this.state.userNumber,
             'password':this.state.userPassword,
         }
-        // NetUitl.post(API.APIList.authenticate,params,function(responseData){
-        //     console.log(responseData);
-        // })
-        const { navigate } = this.props.navigation;
-        navigate('AiErHomeNavigationTabNavigator');
+
+        //这里需要使用that来代替this，否则会出现this指向不正确；这个就是作用域链的原因
+        let that=this;
+        NetUitl.post(API.APIList.authenticate,params,function(responseData){
+            //请求得来的数据
+            that.setState({
+                circleSize:0,
+            })
+            // console.log(responseData);
+            if(responseData.success===true){
+                AsyncStorage.setItem('normal_user_id',JSON.stringify(responseData.result.id)).then(
+                    ()=>{
+                        // console.log('用户的id保存完成')
+                    }
+                )
+                AsyncStorage.setItem('myToken',responseData.result.token).then(
+                    ()=>{
+                        // console.log('token值保存成功')
+                    }
+                )
+                const resetActions=NavigationActions.reset({
+                    index:0,
+                    actions:[
+                        NavigationActions.navigate({routeName:'AiErHomeNavigationTabNavigator'})
+                    ]
+                })
+                that.props.navigation.dispatch(resetActions)
+            }
+            else{
+                Alert.alert(responseData.error.message)
+            }
+        })
+
     }
 
 
@@ -75,6 +109,7 @@ export default class LoginIn extends Component {
                             style={styles.userInput}
                             placeholder="请输入手机号"
                             underlineColorAndroid="transparent"
+                            selectTextOnFocus={true}
                             value={this.state.userNumber}
                             onChangeText={(userNumber) => this.setState({ userNumber })} />
                     </View>
@@ -87,6 +122,8 @@ export default class LoginIn extends Component {
                         <TextInput
                             style={styles.userInput}
                             placeholder="请输入密码"
+                            secureTextEntry={true}
+                            selectTextOnFocus={true}
                             underlineColorAndroid="transparent"
                             value={this.state.userPassword}
                             onChangeText={(userPassword) => this.setState({ userPassword })} />
@@ -95,11 +132,7 @@ export default class LoginIn extends Component {
                 <TouchableHighlight   onPress={this._onButtonClickToAiErLife.bind(this)} style={[styles.btn, styles.topStatus]}>
                     <Text>登录</Text>
                 </TouchableHighlight>
-                {/*<ActivityIndicator animating={this.state.animating} style={{*/}
-                    {/*alignItems: 'center',*/}
-                    {/*justifyContent: 'center',*/}
-                    {/*padding: 8,*/}
-                {/*height:20}} size="large"/>*/}
+                <ActivityIndicator animating={this.state.animating} size={this.state.circleSize}/>
                 <TouchableHighlight accessibilityLabel="See an informative alert" >
                     <View style={styles.horizontal}>
                         <Text style={{ color: '#808080'}} onPress={this._onButtonClickToResetPossword.bind(this)}>忘记密码? </Text>
@@ -158,7 +191,6 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     btn: {
-        borderWidth: 1,
         width: 2*width/3,
         borderWidth: 1,
         borderColor: '#808080',
@@ -172,102 +204,3 @@ const styles = StyleSheet.create({
         resizeMode:'contain',
     },
 });
-
-                // <Button title=" 跳转到爱尔诊所" onPress={this._onButtonClickToAiErClnic.bind(this)}></Button>
-                // <Button title=" 跳转到诊室详情" onPress={this._onButtonClickToClinicDetails.bind(this)}></Button>
-                // <Button title=" 跳转到诊室" onPress={this._onButtonClickToClinicIntroduction.bind(this)}></Button>
-                // <Button title=" 跳转到科室医生列表" onPress={this._onButtonClickToDepartmentDoctorsIntroduced.bind(this)}></Button>
-                // <Button title=" 跳转到医生简介" onPress={this._onButtonClickToDoctorSpecificIntroduction.bind(this)}></Button>
-                // <Button title=" 跳转到家庭联系人" onPress={this._onButtonClickToFamilyContactPerson.bind(this)}></Button>
-                // <Button title=" 跳转到添加联系人" onPress={this._onButtonClickToAddContacts.bind(this)}></Button>
-                // <Button title=" 跳转到修改家庭联系人" onPress={this._onButtonClickToModifyContacts.bind(this)}></Button>
-                // <Button title=" 跳转到我的服务" onPress={this._onButtonClickToMyServiceDoctor.bind(this)}></Button>
-                // <Button title=" 跳转到病情描述" onPress={this._onButtonClickToPatientConditionDescription.bind(this)}></Button>
-                // <Button title=" 跳转到我的预约" onPress={this._onButtonClickToUserMyAppointment.bind(this)}></Button>
-                // <Button title=" 跳转到用户支付界面" onPress={this._onButtonClickToUserPayment.bind(this)}></Button>
-                // <Button title=" 跳转到个人信息" onPress={this._onButtonClickToUserPersonalCenter.bind(this)}></Button>
-                // <Button title=" 跳转到个人中心" onPress={this._onButtonClickToUserPersonalInformation.bind(this)}></Button>
-
-   // //跳转到添加联系人
-    // _onButtonClickToAddContacts(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('AddContacts');
-    // }
-    //
-    // //跳转到爱尔诊所
-    // _onButtonClickToAiErClnic(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('AiErClinic');
-    // }
-    //
-    // //跳转到诊室详情
-    // _onButtonClickToClinicDetails(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('ClinicDetails');
-    // }
-    //
-    // //跳转到诊室
-    // _onButtonClickToClinicIntroduction(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('ClinicIntroduction');
-    // }
-    //
-    // //科室医生列表
-    // _onButtonClickToDepartmentDoctorsIntroduced(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('DepartmentDoctorsIntroduced');
-    // }
-    //
-    // //跳转到医生简介
-    // _onButtonClickToDoctorSpecificIntroduction(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('DoctorSpecificIntroduction');
-    // }
-    //
-    // //跳转到家庭联系人
-    // _onButtonClickToFamilyContactPerson(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('FamilyContactPerson');
-    // }
-    //
-    // //跳转到修改家庭联系人
-    // _onButtonClickToModifyContacts(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('ModifyContacts');
-    // }
-    //
-    // //跳转到我的服务
-    // _onButtonClickToMyServiceDoctor(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('MyServiceDoctor');
-    // }
-    //
-    // //病情描述
-    // _onButtonClickToPatientConditionDescription(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('PatientConditionDescription');
-    // }
-    //
-    // //跳转到我的预约
-    // _onButtonClickToUserMyAppointment(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('UserMyAppointment');
-    // }
-    //
-    // //跳转到用户支付界面
-    // _onButtonClickToUserPayment(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('UserPayment');
-    // }
-    //
-    // //跳转到个人信息
-    // _onButtonClickToUserPersonalCenter(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('UserPersonalCenter');
-    // }
-    //
-    // //跳转到个人中心
-    // _onButtonClickToUserPersonalInformation(){
-    //     const { navigate } =this.props.navigation;
-    //     navigate('UserPersonalInformation');
-    // }

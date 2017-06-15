@@ -17,6 +17,11 @@ import { NavigationActions } from 'react-navigation';
 import Logo from '../images/logo.png';
 import IconAccountnumber from '../images/icon_accountnumber.png';
 
+
+import NetUitl from './plugins/NetUitl'
+import API from './plugins/API'
+
+
 export default class ResetPassword extends Component {
     static navigationOptions = {
         title: '重置密码',
@@ -27,18 +32,45 @@ export default class ResetPassword extends Component {
         this.state = {
             userNumber: '15529625328',
             userPassword: '000000',
-            VerificationCode:'',
+            sms_code :'',
         }
     }
 
+    _onButtonClickToGetChangePasswordVerificationCode(){
+        let params={
+            phone :this.state.userNumber,
+        }
+        NetUitl.get(API.APIList.send_change_password_code,params,function(responseData){
+            // console.log(responseData);
+            Alert.alert('发送成功');
+        })
+    }
 
     //重置密码
     _onButtonClickToResetPassword() {
-         const backAction = NavigationActions.back();
-        const navigation = this.props.navigation;
-        navigation.dispatch(backAction);
+        let params={
+            username:this.state.userNumber,
+            password:this.state.userPassword,
+            sms_code:this.state.sms_code,
+        }
+        let that=this;
+        NetUitl.get(API.APIList.change_password,params,function(responseData){
+            if(responseData.success===true){
+                Alert.alert('重置密码成成功')
+                const backAction = NavigationActions.back({
+                    key:'LoginIn'
+                });
+                that.props.navigation.dispatch(backAction)
+            }
+        })
     }
 
+    _onButtonClickToBackLoginIn() {
+        const backAction=NavigationActions.back({
+            key:'LoginIn'
+        })
+        this.props.navigation.dispatch(backAction);
+    }
 
     render() {
         return (
@@ -60,13 +92,13 @@ export default class ResetPassword extends Component {
                     <View style={styles.Icon}>
                         <Image source={require('../images/icon_verificationcode.png')} style={styles.img} />
                     </View>
-                    <View style={{ flex: 1 }}>
+                      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                         <TextInput
                             style={styles.userInput}
                             placeholder="请输入验证码"
                             underlineColorAndroid="transparent"
-                            onChangeText={(VerificationCode) => this.setState({ VerificationCode })} />
-                        <Button title='获取验证码'/>
+                            onChangeText={(sms_code ) => this.setState({ sms_code  })} />
+                        <Text style={{padding:5,backgroundColor:"#00ff00"}} onPress={this._onButtonClickToGetChangePasswordVerificationCode.bind(this)}>获取验证码</Text>
                     </View>
                 </View>
                 <View style={[styles.flexDirection, styles.topStatus]}>
@@ -84,7 +116,7 @@ export default class ResetPassword extends Component {
                 <TouchableHighlight onPress={this._onButtonClickToResetPassword.bind(this)} style={[styles.btn, styles.topStatus,{ borderWidth: 1 }]}>
                     <Text>重置</Text>
                 </TouchableHighlight>
-                 <TouchableHighlight style={[styles.btn, styles.topStatus,{ borderWidth: 1 }]}>
+                 <TouchableHighlight onPress={this._onButtonClickToBackLoginIn.bind(this)} style={[styles.btn, styles.topStatus,{ borderWidth: 1 }]}>
                     <Text>取消</Text>
                 </TouchableHighlight>
             </View>
