@@ -75,10 +75,13 @@ export default class RegisteredUser extends Component {
     }
     //返回登录页面
     _onButtonClickToBackLoginIn(){
-        const backAction = NavigationActions.back({
-            key: 'LoginIn'
+        const resetActions=NavigationActions.reset({
+            index:0,
+            actions:[
+                NavigationActions.navigate({routeName:'LoginIn'})
+            ]
         })
-        this.props.navigation.dispatch(backAction)
+        this.props.navigation.dispatch(resetActions)
     }
 
     render() {

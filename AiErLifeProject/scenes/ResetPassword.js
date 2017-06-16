@@ -67,7 +67,9 @@ export default class ResetPassword extends Component {
 
     _onButtonClickToBackLoginIn() {
         const backAction=NavigationActions.back({
-            key:'LoginIn'
+            //这个key直接不设置好了，设置了反而不知道返回什么了
+            key:'',
+
         })
         this.props.navigation.dispatch(backAction);
     }
