@@ -11,6 +11,7 @@ import {
     TextInput,
     Image,
     Alert,
+    AsyncStorage,
     TouchableHighlight,
     TouchableOpacity,
 } from 'react-native';
@@ -21,62 +22,75 @@ import { StackNavigator } from 'react-navigation';
 var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
 
+//网络请求组件
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
+
+
 export default class AiErClinic extends Component {
 
     static navigationOptions = {
         title: '爱尔诊所',
     };
 
+    componentDidMount(){
+        AsyncStorage.getItem('myToken',(err,result)=>{
+            // console.log(result);
+            this.setState({myToken:result},()=>{
+               this._InitDoctorListRow();
+            })
+
+        })
+    }
+    _InitDoctorListRow(){
+        let that =this;
+        let params={
+            token:this.state.myToken,
+        }
+        NetUitl.get(API.APIList.all_hospital,params,function(response){
+            //请求得到的医院信息
+            console.log(response);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(response.result)
+            })
+        })
+    }
+
     constructor(props) {
         super(props);
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([
-                {
-                    imageSrc:'',
-                    clinicName:'爱尔诊所后宰门诊所',
-                    threeDoctorsNumber:9,
-                    clinicIndication:'口腔科',
-                    clinicAddress:'后宰门130号创之星大厦一单元122（中户）'
-                }, {
-                    imageSrc:'',
-                    clinicName:'爱尔诊所西电诊所',
-                    threeDoctorsNumber:9,
-                    clinicIndication:'牙科',
-                    clinicAddress:'西安长安区兴隆街道266号'
-                },{
-                    imageSrc:'',
-                    clinicName:'爱尔诊所南门诊所',
-                    threeDoctorsNumber:9,
-                    clinicIndication:'儿科',
-                    clinicAddress:'西安永宁门130号向富楼对面'
-                },]),
+            myToken:'',
+            dataSource: ds,
         };
     }
 
 
     //跳转到某一个具提的诊室的详细介绍
-    _onPressRow(){
-       // console.log(this.props)
-        const {navigate} =this.props.navigation;
-        navigate('ClinicIntroduction');
+    _onPressRow(data){
+        // console.log(data);
+        const navigateAction=NavigationActions.navigate({
+            routeName:'ClinicIntroduction',
+            params:{hospital_id:data.id}
+        })
+        this.props.navigation.dispatch(navigateAction)
     }
     _renderRow(rowData){
         return (
-            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this,rowData)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon_space}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.pic_url}} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
                         <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:15,fontWeight:'400',paddingRight:20}}>{rowData.clinicName}</Text>
-                            <Text>{rowData.threeDoctorsNumber}位三甲医生</Text>
+                            <Text style={{fontSize:15,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
+                            <Text>{rowData.doctor_count}位三甲医生</Text>
                         </View>
                         <View  style={styles.list_btn}  >
-                            <Text style={styles.text_color}>{rowData.clinicIndication}</Text>
+                            <Text style={styles.text_color}>{rowData.departments[0].name}</Text>
                         </View>
-                        <Text>{rowData.clinicAddress}</Text>
+                        <Text>{rowData.address}</Text>
                     </View>
                 </View>
             </TouchableHighlight >

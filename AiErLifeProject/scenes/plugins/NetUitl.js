@@ -3,7 +3,6 @@
  */
 
 import React,{Conponent} from 'react';
-
 import {
     Text,
     TextInput,
@@ -33,10 +32,10 @@ export default class NetUitl extends React.Component{
             fetch(url, {
                 method:'Get'
             }).then((response)=>{
-                console.log(response);
+                // console.log(response);
                 return response.json();
             }).then((responseData)=>{
-                console.log(responseData);
+                // console.log(responseData);
                 callback(responseData);
             }).catch((error)=>{
                 console.log(error)
@@ -61,12 +60,13 @@ export default class NetUitl extends React.Component{
                 },
                 body: paramsString
             }).then((response)=>{
-                console.log(response);
+                // console.log(response);
                 return response.json();
             }).then((responseData)=>{
                 callback(responseData);
             }).catch((error)=>{
                 console.log(error);
+                Alert.alert('网络错误，请重试');
             })
         }
 

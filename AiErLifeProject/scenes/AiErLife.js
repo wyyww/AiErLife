@@ -9,6 +9,7 @@ import {
     Button,
     Image,
     TextInput,
+    AsyncStorage,
     ScrollView,
     ListView,
     Alert,
@@ -22,6 +23,10 @@ import { TabNavigator } from "react-navigation";
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
 
+//网络请求组件
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
+
 
 export default class AiErLife extends Component {
 
@@ -29,10 +34,14 @@ export default class AiErLife extends Component {
         title:'主页',
     };
 
+    componentDidMount(){
+
+    }
     constructor(props) {
         super(props);
         const listData=new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
         this.state={
+            myToken:'',
             dataSource:listData.cloneWithRows([{
                     name:'邱红涛',
                     imageSrc:'../images/ben.png',

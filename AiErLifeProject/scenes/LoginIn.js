@@ -67,7 +67,7 @@ export default class LoginIn extends Component {
             that.setState({
                 circleSize:0,
             })
-            // console.log(responseData);
+            console.log(responseData);
             if(responseData.success===true){
                 AsyncStorage.setItem('normal_user_id',JSON.stringify(responseData.result.id)).then(
                     ()=>{
