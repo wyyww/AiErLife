@@ -40,13 +40,12 @@ export default class ClinicIntroduction extends Component {
             this.setState({
                 myToken:result,
             },()=>{
-                this._getClinicDetails()
+                this._getClinicIntroductionDetails()
             })
-
         })
     }
     //获取具体诊室的信息详情
-    _getClinicDetails(){
+    _getClinicIntroductionDetails(){
         let that=this;
         let params={
             token:this.state.myToken,
@@ -54,16 +53,17 @@ export default class ClinicIntroduction extends Component {
         }
         NetUitl.get(API.APIList.hospital_show,params,function(response){
             // console.log(response);
-            var res=response.result;
-            // console.log(res)
+            let res=response.result;
             that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res.specialities),
+                latitude:res.latitude,
+                longitude:res.longitude,
+                specialities:res.specialities,
+
                 clinicName:res.name,
                 clinicAddress:res.address,
                 clinicPhone:res.phone,
                 clinicImage:res.pic_url,
-                dataSource:that.state.dataSource.cloneWithRows(res.specialities),
-                latitude:res.latitude,
-                longitude:res.longitude
             })
         })
     }
@@ -75,24 +75,21 @@ export default class ClinicIntroduction extends Component {
             dataSource: ds,
             myToken:'',
             hospital_id:'',
+            latitude:'',
+            longitude:'',
+            specialities:'',
+//优化的时候尽可能去掉下面的变量
             clinicName:'',
             clinicAddress:'',
             clinicPhone:'',
             clinicImage:'',
-            latitude:'',
-            longitude:'',
         };
     }
 
-    //跳转到诊室详情   ,这个页面好像多余的，不跳过去了
-    _onButtonClickToClinicDetails(){
-        const { navigate } =this.props.navigation;
-        navigate('ClinicDetails');
-    }
 
-    _renderRow(rowData){
+    _renderRow(rowData,sectionID,rowID){
         return (
-            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this,rowID,sectionID)}>
                 <View style={styles.list_frame}>
                         <View style={{flexDirection:'row',}}>
                             <Text style={[styles.text_container,{fontSize:15,fontWeight:'400',paddingRight:20}]}>{rowData.name}</Text>
@@ -106,12 +103,16 @@ export default class ClinicIntroduction extends Component {
             </TouchableHighlight >
         )
     }
-    _onPressRow(){
-        // const navigationAction=NavigationActions.navigate({
-        //     routeName:'ClinicDetails',
-        //     params:{latitude:this.state.latitude,longitude:this.state.longitude}
-        // })
-        // this.props.navigation.dispatch(navigationAction);
+    _onPressRow(rowID){
+        let speciality_id=this.state.specialities[rowID].id
+        const navigationAction=NavigationActions.navigate({
+            routeName:'ClinicDetails',
+            params:{
+                hospital_id:this.state.hospital_id,
+                speciality_id:speciality_id,
+            }
+        })
+        this.props.navigation.dispatch(navigationAction);
     }
     render() {
         return (
@@ -148,10 +149,10 @@ export default class ClinicIntroduction extends Component {
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
                 />
-                {/*<View style={[styles.module_padding_view]}>*/}
-                    {/*<Text>诊所介绍</Text>*/}
-                    {/*<Text>艾尔诊所是爱而生活集团旗下，高品质专业口腔诊所，诊所坐镇专家团队均有当地三家医生主任即副主任医师组成，艾尔诊所可为诊所提供和线上线下专业诊疗方案</Text>*/}
-                {/*</View>*/}
+                <View style={[styles.module_padding_view]}>
+                    <Text>诊所介绍</Text>
+                    <Text>艾尔诊所是爱而生活集团旗下，高品质专业口腔诊所，诊所坐镇专家团队均有当地三家医生主任即副主任医师组成，艾尔诊所可为诊所提供和线上线下专业诊疗方案</Text>
+                </View>
 
             </ScrollView>
         );

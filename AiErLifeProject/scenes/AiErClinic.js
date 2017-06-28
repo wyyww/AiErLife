@@ -49,7 +49,7 @@ export default class AiErClinic extends Component {
         }
         NetUitl.get(API.APIList.all_hospital,params,function(response){
             //请求得到的医院信息
-            console.log(response);
+            // console.log(response);
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(response.result)
             })

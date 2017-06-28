@@ -10,6 +10,7 @@ import {
     Image,
     TextInput,
     ListView,
+    AsyncStorage,
     TouchableHighlight
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -17,6 +18,10 @@ import { NavigationActions } from 'react-navigation';
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
+
+//网络请求组件
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
 
 export default class ClinicDetails extends Component {
 
@@ -28,6 +33,9 @@ export default class ClinicDetails extends Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
+            speciality_id:'',
+            hospital_id:'',
+            token:'',
             dataSource: ds.cloneWithRows([
                 {
                     imageSrc:'',
@@ -36,6 +44,34 @@ export default class ClinicDetails extends Component {
                     clinicSectionDescription:'口腔修复，专业擅长贴膜，吃面，大豆睡觉，好大米中国造，好油大豆油'
                 }]),
         };
+    }
+
+    componentDidMount(){
+        const prevParams=this.props.navigation.state;
+        this.setState={
+            speciality_id:prevParams.params.speciality_id,
+            hospital_id:prevParams.params.hospital_id,
+        }
+
+        AsyncStorage.getItem('myToken',(err,result)=>{
+            console.log(result)
+            this.setState({
+                token:result,
+            },()=>{
+                this._getClinicDetails();
+            })
+        })
+    }
+
+    _getClinicDetails(){
+        let that=this;
+        let patams={
+            speciality_id:this.state.speciality_id,
+            hospital_id:this.state.hospital_id,
+        }
+        NetUitl.get(API.APIList.speciality_of_hospital,params,function(res){
+            console.log(res);
+        })
     }
     _renderRow(rowData){
         return (

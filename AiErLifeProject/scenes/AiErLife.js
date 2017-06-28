@@ -85,7 +85,6 @@ export default class AiErLife extends Component {
 
     //跳转到爱尔诊所
     _onButtonClickNavigateToAiErClnic(){
-        // console.log('sffsd')
         const { navigate } =this.props.navigation;
         navigate('AiErClinic');
     }

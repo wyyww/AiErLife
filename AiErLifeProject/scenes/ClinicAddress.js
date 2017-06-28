@@ -33,34 +33,36 @@ export default class ClinicAddress extends Component {
     }
 
     componentWillMount(){
-        const prevDeliverParams=this.props.navigation.state;
-        console.log(prevDeliverParams)
+
+        // console.log(prevDeliverParams.params)
     }
 
     constructor(props) {
         super(props);
+        const prevDeliverParams=this.props.navigation.state;
         this.state = {
             mayType: MapTypes.NORMAL,
-            zoom: 15,
+            zoom: 18,
             center: {
-                longitude: 113.981718,
-                latitude: 22.542449
+                longitude: prevDeliverParams.params.longitude,
+                latitude: prevDeliverParams.params.latitude,
             },
             trafficEnabled: false,
             baiduHeatMapEnabled: false,
             markers: [{
-                longitude: 113.981718,
-                latitude: 22.542449,
+                longitude: prevDeliverParams.params.longitude,
+                latitude: prevDeliverParams.params.latitude,
                 title: "Window of the world"
             },{
-                longitude: 113.995516,
-                latitude: 22.537642,
-                title: ""
+                longitude: prevDeliverParams.params.longitude,
+                latitude: prevDeliverParams.params.latitude,
+                title: "标记"
             }]
         };
     }
 
     componentDidMount() {
+
     }
 
     render() {
@@ -83,72 +85,72 @@ export default class ClinicAddress extends Component {
                 >
                 </MapView>
 
-                <View style={styles.row}>
-                    <Button title="Normal" onPress={() => {
-                        this.setState({
-                            mapType: MapTypes.NORMAL
-                        });
-                    }} />
-                    <Button style={styles.btn} title="Satellite" onPress={() => {
-                        this.setState({
-                            mapType: MapTypes.SATELLITE
-                        });
-                    }} />
+                {/*<View style={styles.row}>*/}
+                    {/*<Button title="Normal" onPress={() => {*/}
+                        {/*this.setState({*/}
+                            {/*mapType: MapTypes.NORMAL*/}
+                        {/*});*/}
+                    {/*}} />*/}
+                    {/*<Button style={styles.btn} title="Satellite" onPress={() => {*/}
+                        {/*this.setState({*/}
+                            {/*mapType: MapTypes.SATELLITE*/}
+                        {/*});*/}
+                    {/*}} />*/}
 
-                    <Button style={styles.btn} title="Locate" onPress={() => {
-                        console.warn('center', this.state.center);
-                        Geolocation.getCurrentPosition()
-                            .then(data => {
-                                console.warn(JSON.stringify(data));
-                                this.setState({
-                                    zoom: 15,
-                                    marker: {
-                                        latitude: data.latitude,
-                                        longitude: data.longitude,
-                                        title: 'Your location'
-                                    },
-                                    center: {
-                                        latitude: data.latitude,
-                                        longitude: data.longitude,
-                                        rand: Math.random()
-                                    }
-                                });
-                            })
-                            .catch(e =>{
-                                console.warn(e, 'error');
-                            })
-                    }} />
-                </View>
+                    {/*<Button style={styles.btn} title="Locate" onPress={() => {*/}
+                        {/*console.warn('center', this.state.center);*/}
+                        {/*Geolocation.getCurrentPosition()*/}
+                            {/*.then(data => {*/}
+                                {/*console.warn(JSON.stringify(data));*/}
+                                {/*this.setState({*/}
+                                    {/*zoom: 15,*/}
+                                    {/*marker: {*/}
+                                        {/*latitude: data.latitude,*/}
+                                        {/*longitude: data.longitude,*/}
+                                        {/*title: 'Your location'*/}
+                                    {/*},*/}
+                                    {/*center: {*/}
+                                        {/*latitude: data.latitude,*/}
+                                        {/*longitude: data.longitude,*/}
+                                        {/*rand: Math.random()*/}
+                                    {/*}*/}
+                                {/*});*/}
+                            {/*})*/}
+                            {/*.catch(e =>{*/}
+                                {/*console.warn(e, 'error');*/}
+                            {/*})*/}
+                    {/*}} />*/}
+                {/*</View>*/}
 
-                <View style={styles.row}>
-                    <Button title="Zoom+" onPress={() => {
-                        this.setState({
-                            zoom: this.state.zoom + 1
-                        });
-                    }} />
-                    <Button title="Zoom-" onPress={() => {
-                        if(this.state.zoom > 0) {
-                            this.setState({
-                                zoom: this.state.zoom - 1
-                            });
-                        }
+                {/*<View style={styles.row}>*/}
+                    {/*<Button title="Zoom+" onPress={() => {*/}
+                        {/*this.setState({*/}
+                            {/*zoom: this.state.zoom + 1*/}
+                        {/*});*/}
+                    {/*}} />*/}
+                    {/*<Button title="Zoom-" onPress={() => {*/}
+                        {/*if(this.state.zoom > 0) {*/}
+                            {/*this.setState({*/}
+                                {/*zoom: this.state.zoom - 1*/}
+                            {/*});*/}
+                        {/*}*/}
 
-                    }} />
-                </View>
+                    {/*}} />*/}
+                {/*</View>*/}
 
-                <View style={styles.row}>
-                    <Button title="Traffic" onPress={() => {
-                        this.setState({
-                            trafficEnabled: !this.state.trafficEnabled
-                        });
-                    }} />
+                {/*<View style={styles.row}>*/}
+                    {/*<Button title="Traffic" onPress={() => {*/}
+                        {/*this.setState({*/}
+                            {/*trafficEnabled: !this.state.trafficEnabled*/}
+                        {/*});*/}
+                    {/*}} />*/}
 
-                    <Button title="Baidu HeatMap" onPress={() => {
-                        this.setState({
-                            baiduHeatMapEnabled: !this.state.baiduHeatMapEnabled
-                        });
-                    }} />
-                </View>
+                    {/*<Button title="Baidu HeatMap" onPress={() => {*/}
+                        {/*this.setState({*/}
+                            {/*baiduHeatMapEnabled: !this.state.baiduHeatMapEnabled*/}
+                        {/*});*/}
+                    {/*}} />*/}
+                {/*</View>*/}
             </View>
         );
     }
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height - 200,
+        height: Dimensions.get('window').height,
         marginBottom: 16
     }
 });
