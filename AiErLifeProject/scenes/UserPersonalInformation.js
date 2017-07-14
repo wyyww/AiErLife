@@ -40,7 +40,7 @@ export default class UserPersonalInformation extends Component {
             this.setState({
                 normal_user_id:result,
             })
-            console.log(result)
+            // console.log(result)
         })
         AsyncStorage.getItem('myToken',(err,result)=>{
             let that=this;

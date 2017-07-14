@@ -8,10 +8,14 @@ import {
     TextInput,
     Image,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
+import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button';
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API'
+
 let Dimensions = require('Dimensions');
 var {height, width} = Dimensions.get('window');
 
@@ -25,32 +29,51 @@ export default class ModifyUserPersonalCenter extends Component {
         super(props);
         this.state = {
             gender: '',
-            normal_user_id: '',
+            id: '',
             token: '',
-            identification_card:'',
+            identity_card:'',
             address:'',
             name:'',
         }
     }
 
     componentDidMount() {
+
         AsyncStorage.getItem('normal_user_id', (err, res) => {
             // console.log(res)
             this.setState({
-                normal_user_id: res,
+                id: res,
             })
         })
         AsyncStorage.getItem('myToken', (err, res) => {
-            // console.log(res);
-            this.setState({
-                token: res,
-            })
+            let that=this;
+            this.setState({token: res}, () => {
+                // console.log(this);
+                let params = {
+                    'token': this.state.token,
+                    'normal_user_id': this.state.id,
+                };
+                NetUitl.get(API.APIList.normal_user_info, params, function (res) {
+                    //下面的就是请求来的数据
+                    // console.log(res);
+                    that.setState({
+                        name: res.result.name,
+                        identity_card: res.result.identity_card,
+                        username: res.result.username,
+                        gender: res.result.gender,
+                        address: res.result.address,
+                    });
+
+                });
+            });
         })
     }
 
     onSelect(index, value) {
         this.setState({
-            gender: `Selected index: ${index} , value: ${value}`
+            gender: value+1
+        },()=>{
+            // console.log(this.state);
         })
     }
 
@@ -66,18 +89,18 @@ export default class ModifyUserPersonalCenter extends Component {
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>身份证</Text>
-                    <TextInput value={this.state.identification_card}
-                               onChangeText={(identification_card) => this.setState({identification_card})}
+                    <TextInput value={this.state.identity_card}
+                               onChangeText={(identity_card) => this.setState({identity_card})}
                                style={styles.textContainer}
                                underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>性别</Text>
-                    <RadioGroup style={{flexDirection: 'row'}} onSelect={(index, value) => this.onSelect(index, value)}>
-                        <RadioButton value={'男'}>
+                    <RadioGroup style={{flexDirection: 'row'}} onSelect={(index, value) => this.onSelect(index, value)}  selectedIndex={this.state.gender - 1}>
+                        <RadioButton value={0}>
                             <Text>男</Text>
                         </RadioButton>
-                        <RadioButton value={'女'}>
+                        <RadioButton value={1}>
                             <Text>女</Text>
                         </RadioButton>
                     </RadioGroup>
@@ -95,12 +118,24 @@ export default class ModifyUserPersonalCenter extends Component {
                     <Text>请您正确填写个人信息，以便为您带来更优质的服务</Text>
                 </View>
                 <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton}>
-                    <Text style={styles.logoutButtonFontSize}>保存</Text>
+                    <Text style={styles.logoutButtonFontSize} onPress={this.clickToModifyUserMessages.bind(this)}>保存</Text>
                 </TouchableHighlight>
             </View>
         );
     }
-
+    clickToModifyUserMessages(){
+        let that=this;
+        let params =this.state;
+        NetUitl.post(API.APIList.update_user_info,params,function (response){
+            if(response.result==true){
+                Alert.alert('修改成功')
+            }
+            else{
+                Alert.alert('网络错误，请重试')
+            }
+        })
+        // RamirezNi
+    }
 
 }
 
