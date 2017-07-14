@@ -10,11 +10,14 @@ import {
     Button,
     TextInput,
     Alert,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { StackNavigator } from 'react-navigation';
 
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API'
 import ItemCell from './plugins/ItemCell';
 
 export default class UserPersonalInformation extends Component {
@@ -25,13 +28,47 @@ export default class UserPersonalInformation extends Component {
     constructor(props){
         super(props);
         this.state={
-
+            token:'',
+            normal_user_id:'',
+            name:'',
+            username:'',
         }
     }
-    //跳转到个人信息
+
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,result)=>{
+            this.setState({
+                normal_user_id:result,
+            })
+            console.log(result)
+        })
+        AsyncStorage.getItem('myToken',(err,result)=>{
+            let that=this;
+            this.setState({
+                token:result,
+            },()=>{
+                let params={
+                    token:this.state.token,
+                    normal_user_id:this.state.normal_user_id,
+                }
+                NetUitl.get(API.APIList.normal_user_info,params,function(response){
+                    let res=response.result;
+                    // console.log(res);
+                    that.setState({
+                        name:res.name,
+                        username:res.username,
+                    })
+
+                })
+
+            })
+        })
+    }
+
+    //修改跳转到个人信息
     _onButtonClickToUserPersonalCenter(){
         const { navigate } =this.props.navigation;
-        navigate('UserPersonalCenter');
+        navigate('ModifyUserPersonalCenter');
     }
 
     //跳转到重置密码页面
@@ -59,9 +96,9 @@ export default class UserPersonalInformation extends Component {
                             <Image source={require('../images/head.jpg')} style={styles.avatar}/>
                             <View style={styles.rightContainer}>
                                 <View style={styles.userContainer}>
-                                    <Text style={styles.name}>Name:闻国龙</Text>
+                                    <Text style={styles.name}>Name:{this.state.name}</Text>
                                 </View>
-                                <Text style={[styles.time,styles.tel]}>手机号:15529625328</Text>
+                                <Text style={[styles.time,styles.tel]}>手机号:{this.state.username}</Text>
                             </View>
                         </View>
                     </TouchableHighlight>

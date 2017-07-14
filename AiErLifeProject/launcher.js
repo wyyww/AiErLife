@@ -24,7 +24,7 @@ import MyServiceDoctor from './scenes/MyServiceDoctor';
 import PatientConditionDescription from './scenes/PatientConditionDescription';
 import UserMyAppointment from './scenes/UserMyAppointment';
 import UserPayment from './scenes/UserPayment';
-import UserPersonalCenter from './scenes/UserPersonalCenter';
+import ModifyUserPersonalCenter from './scenes/UserPersonalCenter';
 import UserPersonalInformation from './scenes/UserPersonalInformation';
 
 import ItemCell from './scenes/plugins/ItemCell'
@@ -49,7 +49,7 @@ const AiErLifeProject=StackNavigator({
     PatientConditionDescription:{screen:PatientConditionDescription},           //病情描述界面
     UserMyAppointment:{screen:UserMyAppointment},                               //我的预约
     UserPayment:{screen:UserPayment},                                           //用户支付界面
-    UserPersonalCenter:{screen:UserPersonalCenter},                             //个人信息
+    ModifyUserPersonalCenter:{screen:ModifyUserPersonalCenter},                     //修改个人信息
     UserPersonalInformation:{screen:UserPersonalInformation},                       //用户中心
 
     AiErHomeNavigationTabNavigator:{screen:AiErHomeNavigationTabNavigator},           //三大主题底部导航

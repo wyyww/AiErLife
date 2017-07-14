@@ -288,7 +288,7 @@ class WaitForPay extends React.Component {
 
         }
         NetUitl.get(API.APIList.normal_user_unpaid,params,function(res){
-            console.log(res);
+            // console.log(res);
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(res.result)
             })
