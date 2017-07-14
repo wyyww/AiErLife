@@ -78,7 +78,7 @@ export default class ClinicIntroduction extends Component {
             latitude:'',
             longitude:'',
             specialities:'',
-//优化的时候尽可能去掉下面的变量
+            //优化的时候尽可能去掉下面的变量
             clinicName:'',
             clinicAddress:'',
             clinicPhone:'',

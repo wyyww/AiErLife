@@ -36,54 +36,54 @@ export default class ClinicDetails extends Component {
             speciality_id:'',
             hospital_id:'',
             token:'',
-            dataSource: ds.cloneWithRows([
-                {
-                    imageSrc:'',
-                    clinicSectionDoctorName:'景医生（工号007）',
-                    clinicName:'艾尔诊所后宰门诊室',
-                    clinicSectionDescription:'口腔修复，专业擅长贴膜，吃面，大豆睡觉，好大米中国造，好油大豆油'
-                }]),
+            dataSource: ds,
         };
     }
 
     componentDidMount(){
         const prevParams=this.props.navigation.state;
-        this.setState={
+        this.setState({
             speciality_id:prevParams.params.speciality_id,
             hospital_id:prevParams.params.hospital_id,
-        }
+        })
 
         AsyncStorage.getItem('myToken',(err,result)=>{
-            console.log(result)
+            // console.log(result)
             this.setState({
                 token:result,
             },()=>{
                 this._getClinicDetails();
             })
         })
-    }
+     }
 
-    _getClinicDetails(){
+        _getClinicDetails(){
         let that=this;
-        let patams={
+        let params={
+            token:this.state.token,
             speciality_id:this.state.speciality_id,
             hospital_id:this.state.hospital_id,
         }
-        NetUitl.get(API.APIList.speciality_of_hospital,params,function(res){
-            console.log(res);
+        NetUitl.get(API.APIList.speciality_of_hospital,params,function(response){
+            let res=response.result;
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res),
+            })
+            // console.log(res);
         })
     }
+
     _renderRow(rowData){
         return (
             <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
-                        <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.clinicSectionDoctorName}</Text>
-                        <Text>{rowData.clinicName}</Text>
-                        <Text>{rowData.clinicSectionDescription}</Text>
+                        <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
+                        <Text>{rowData.hospital_name}</Text>
+                        <Text>{rowData.introducation}</Text>
                     </View>
                 </View>
             </TouchableHighlight >

@@ -11,9 +11,13 @@ import {
     ListView,
     Image,
     TouchableHighlight,
+    AsyncStorage,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API'
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
@@ -27,59 +31,55 @@ class Confirmed extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },]),
+            token:'',
+            normal_user_id:'',
+            dataSource: ds,
         };
      }
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,res)=>{
+            // console.log(res)
+            this.setState({
+                normal_user_id:res,
+            },()=>{})
+        })
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._refreshData();
+            })
+        })
+    }
+    _refreshData(){
+        let that=this;
+        let params={
+            token:this.state.token,
+            normal_user_id:this.state.normal_user_id,
+            confirm_state:1,
+        }
+        NetUitl.get(API.APIList.normal_user_confirmed,params,function(res){
+            // console.log(res);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res.result)
+            })
+        })
+    }
+
    _renderRow(rowData){
         return (
             <TouchableHighlight onPress={() => this._onPressRow}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.doctor_head_url}} style={{width:80,height:80}}/>
                     </View>
                     <View >
                         <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.doctorLevel}</Text>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.doctor_name}</Text>
+                            <Text>{rowData.doctor_job_title}</Text>
                         </View>
                         <Text>{rowData.address}</Text>
-                        <Text>服务时间{rowData.serviceTime}</Text>
+                        <Text>服务时间:{rowData.service_time}</Text>
                     </View>
                     <Text onPress={()=>{console.log(this.props)}}>点击试一下呗</Text>
                 </View>
@@ -109,59 +109,55 @@ class WaitForConfirme extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                name:'朱洁干嘛呢（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },]),
+            token:'',
+            normal_user_id:'',
+            dataSource: ds,
         };
+    }
+
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,res)=>{
+            // console.log(res)
+            this.setState({
+                normal_user_id:res,
+            },()=>{})
+        })
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._refreshData();
+            })
+        })
+    }
+    _refreshData(){
+        let that=this;
+        let params={
+            token:this.state.token,
+            normal_user_id:this.state.normal_user_id,
+
+        }
+        NetUitl.get(API.APIList.normal_user_unconfirmed,params,function(res){
+            // console.log(res);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res.result)
+            })
+        })
     }
     _renderRow(rowData){
         return (
             <TouchableHighlight onPress={() => {this._onPressRow}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.patient_image_url}} style={{width:80,height:80}}/>
                     </View>
                     <View >
                         <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.doctorLevel}</Text>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.doctor_name}</Text>
+                            <Text>{rowData.doctor_job_title}</Text>
                         </View>
                         <Text>{rowData.address}</Text>
-                        <Text>服务时间{rowData.serviceTime}</Text>
+                        <Text>服务时间:{rowData.service_time}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -188,59 +184,55 @@ class WaitForReferral extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                name:'牛奶稀饭（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },]),
+            token:'',
+            normal_user_id:'',
+            dataSource: ds,
         };
+    }
+
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,res)=>{
+            // console.log(res)
+            this.setState({
+                normal_user_id:res,
+            },()=>{})
+        })
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._refreshData();
+            })
+        })
+    }
+    _refreshData(){
+        let that=this;
+        let params={
+            token:this.state.token,
+            normal_user_id:this.state.normal_user_id,
+
+        }
+        NetUitl.get(API.APIList.normal_user_paid,params,function(res){
+            // console.log(res);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res.result)
+            })
+        })
     }
     _renderRow(rowData){
         return (
             <TouchableHighlight onPress={() => {this._onPressRow}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.doctor_head_url}} style={{width:80,height:80}}/>
                     </View>
                     <View >
                         <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.doctorLevel}</Text>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.doctor_name}</Text>
+                            <Text>{rowData.doctor_job_title}</Text>
                         </View>
-                        <Text>{rowData.address}</Text>
-                        <Text>服务时间{rowData.serviceTime}</Text>
+                        <Text>{rowData.appointment_address}</Text>
+                        <Text>服务时间:{rowData.appointment_time}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -268,44 +260,39 @@ class WaitForPay extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                name:'620节日（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },{
-                name:'邓医生（新生儿）',
-                imageSrc:'../images/ben.png',
-                doctorLevel:"医师",
-                address:"爱尔诊所后宰门诊室 后宰门130号创之星大厦一单元122（中户",
-                serviceTime:"2017-07-16 17:00:00"
-            },]),
+            token:'',
+            normal_user_id:'',
+            dataSource: ds,
         };
+    }
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,res)=>{
+            // console.log(res)
+            this.setState({
+                normal_user_id:res,
+            },()=>{})
+        })
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._refreshData();
+            })
+        })
+    }
+    _refreshData(){
+        let that=this;
+        let params={
+            token:this.state.token,
+            normal_user_id:this.state.normal_user_id,
+
+        }
+        NetUitl.get(API.APIList.normal_user_unpaid,params,function(res){
+            console.log(res);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res.result)
+            })
+        })
     }
     _renderRow(rowData){
         return (
@@ -316,11 +303,11 @@ class WaitForPay extends React.Component {
                     </View>
                     <View >
                         <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.doctorLevel}</Text>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.doctor_name}</Text>
+                            <Text>{rowData.doctor_job_title}</Text>
                         </View>
-                        <Text>{rowData.address}</Text>
-                        <Text>服务时间{rowData.serviceTime}</Text>
+                        <Text>{rowData.appointment_address}</Text>
+                        <Text>服务时间{rowData.appointment_time}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
