@@ -37,6 +37,7 @@ export default class ClinicDetails extends Component {
             hospital_id:'',
             token:'',
             dataSource: ds,
+            doctor_id:'',
         };
     }
 
@@ -66,23 +67,23 @@ export default class ClinicDetails extends Component {
         }
         NetUitl.get(API.APIList.speciality_of_hospital,params,function(response){
             let res=response.result;
+            // console.log(res)
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(res),
             })
-            // console.log(res);
         })
     }
 
-    _renderRow(rowData){
+    _renderRow(rowData,sectionID){
         return (
-            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this,rowData)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
                         <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                        <Text>{rowData.hospital_name}</Text>
+                        <Text>{rowData.hospital_name}{rowData.id}</Text>
                         <Text>{rowData.introducation}</Text>
                     </View>
                 </View>
@@ -90,9 +91,15 @@ export default class ClinicDetails extends Component {
         )
     }
     //科室医生列表
-    _onPressRow(){
-        const { navigate } =this.props.navigation;
-        navigate('DoctorSpecificIntroduction');
+    _onPressRow(rowData){
+        // console.log(rowData)
+        const NavigationAction=NavigationActions.navigate({
+            routeName:'DoctorSpecificIntroduction',
+            params:{
+                doctor_id:rowData.id
+            }
+        })
+       this.props.navigation.dispatch(NavigationAction)
 
         //这个界面貌似是多余的，写着看吧，暂时被抛弃不需要了
         // navigate('DepartmentDoctorsIntroduced');

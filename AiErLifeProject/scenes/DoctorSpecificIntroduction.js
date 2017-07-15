@@ -10,10 +10,16 @@ import {
     TextInput,
     Image,
     ScrollView,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+
+
+import NetUitl from './plugins/NetUitl'
+import API from './plugins/API'
+
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
@@ -28,10 +34,41 @@ export default class DoctorSpecificIntroduction extends Component {
     constructor(props){
         super(props);
         this.state={
+            doctor_id:'',
+                token:'',
+            doctor_info:{},
 
         }
     }
 
+    componentDidMount(){
+        const prevParams=this.props.navigation.state;
+        console.log(prevParams)
+        this.setState({
+            doctor_id:prevParams.params.doctor_id
+        })
+
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                let that=this;
+                let params={
+                    doctor_id:this.state.doctor_id,
+                    token:this.state.token,
+                }
+                NetUitl.get(API.APIList.doctor_show,params,function(response){
+                    let res=response.result;
+                    console.log(res)
+                    that.setState({
+                        doctor_info:res,
+                    })
+
+                })
+
+            })
+        })
+    }
     //病情描述
     _onButtonClickToPatientConditionDescription(){
         const { navigate } =this.props.navigation;
@@ -43,12 +80,12 @@ export default class DoctorSpecificIntroduction extends Component {
              <View>
                     <View style={styles.list_frame}>
                         <View style={styles.list_icon}>
-                            <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                            <Image source={{uri:this.state.doctor_info.head_url}} style={{width:80,height:80}}/>
                         </View>
                         <View style={{paddingLeft:3}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}} onPress={this._onButtonClickToPatientConditionDescription.bind(this)}>孙医生（工号007）</Text>
-                            <Text>艾尔诊所后宰门诊室</Text>
-                            <Text>口腔科 医师</Text>
+                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}} onPress={this._onButtonClickToPatientConditionDescription.bind(this)}>{this.state.doctor_info.name}</Text>
+                            <Text>{this.state.doctor_info.hospital_name}</Text>
+                            <Text>{this.state.doctor_info.hospital_department_name}&nbsp;{this.state.doctor_info.job_title}</Text>
                         </View>
                     </View>
                  <ScrollView>
