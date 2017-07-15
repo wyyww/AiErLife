@@ -25,6 +25,9 @@ const {width,height} = Dimensions.get('window');
 import NetUitl from './plugins/NetUitl';
 import API from './plugins/API';
 
+import Icon_address from '../images/icon_address.png';
+import Icon_common_rightarrow from '../images/icon_common_rightarrow.png'
+import Icon_phone from '../images/icon_phone.png'
 export default class ClinicIntroduction extends Component {
 
     static navigationOptions={
@@ -97,7 +100,7 @@ export default class ClinicIntroduction extends Component {
                         </View>
                         <View  style={styles.list_btn}  >
                             <Text style={styles.text_color}>{rowData.description}</Text>
-                            <Image source={require('../images/icon_common_rightarrow.png')}  style={styles.icon_small_title}/>
+                            <Image source={Icon_common_rightarrow}  style={styles.icon_small_title}/>
                         </View>
                 </View>
             </TouchableHighlight >
@@ -116,7 +119,7 @@ export default class ClinicIntroduction extends Component {
     }
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.contentContainer}>
+            <ScrollView>
                 <View style={styles.module_frame}>
                     <Image source={{uri:this.state.clinicImage}} style={styles.icon_container}/>
                     <Text style={styles.text_container}>{this.state.clinicName}</Text>
@@ -127,18 +130,18 @@ export default class ClinicIntroduction extends Component {
                     <TouchableHighlight  onPress={()=>this.props.navigation.navigate('ClinicAddress',{latitude:this.state.latitude,longitude:this.state.longitude,address:this.state.clinicAddress})}>
                         <View style={styles.text_row}>
                             <View style={{flexDirection:'row'}}>
-                                <Image  source={require('../images/icon_address.png')} style={styles.icon_small_title}/>
+                                <Image  source={Icon_address} style={styles.icon_small_title}/>
                                 <Text  >{this.state.clinicAddress}</Text>
                             </View>
-                            <Image  source={require('../images/icon_common_rightarrow.png')} style={styles.icon_small_title} />
+                            <Image  source={Icon_common_rightarrow} style={styles.icon_small_title} />
                         </View>
                     </TouchableHighlight>
                     <View style={styles.text_row}>
                         <View style={{flexDirection:'row'}}>
-                            <Image  source={require('../images/icon_phone.png')} style={styles.icon_small_title}/>
+                            <Image  source={Icon_phone} style={styles.icon_small_title}/>
                             <Text>{this.state.clinicPhone}</Text>
                         </View>
-                        <Image  source={require('../images/icon_common_rightarrow.png')} style={styles.icon_small_title} />
+                        <Image  source={Icon_common_rightarrow} style={styles.icon_small_title} />
                     </View>
                 </View>
                 <View style={[styles.text_row,styles.module_padding_view,{justifyContent:'flex-start'}]}>
@@ -153,19 +156,12 @@ export default class ClinicIntroduction extends Component {
                     <Text>诊所介绍</Text>
                     <Text>艾尔诊所是爱而生活集团旗下，高品质专业口腔诊所，诊所坐镇专家团队均有当地三家医生主任即副主任医师组成，艾尔诊所可为诊所提供和线上线下专业诊疗方案</Text>
                 </View>
-
             </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    contentContainer: {
-        // paddingVertical: 20,
-        backgroundColor: '#F5FCFF',
-        width:width,
-        height:height,
-    },
     module_frame:{
         marginLeft:10,
         marginBottom:10,

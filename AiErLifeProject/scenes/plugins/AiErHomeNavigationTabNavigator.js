@@ -2,7 +2,7 @@
  * Created by PC on 2017/6/10.
  */
 
-import React,{ Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
@@ -13,63 +13,74 @@ import {
     Image,
     TouchableHighlight,
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
+import {StackNavigator} from 'react-navigation';
+import {TabNavigator} from "react-navigation";
+
 
 import AiErLife from '../AiErLife';
 import MyServiceDoctor from '../MyServiceDoctor';
 import UserPersonalInformation from '../UserPersonalInformation';
 
-const AiErHomeNavigationTabNavigator=TabNavigator({
-    AiErLife:{screen:AiErLife,
+import Ic_press_home from '../../images/ic_press_home.png';
+import Ic_nor_home from '../../images/ic_nor_home.png';
+import Ic_press_service from '../../images/ic_press_service.png';
+import Ic_nor_service from '../../images/ic_nor_service.png';
+import Ic_press_me from '../../images/ic_press_me.png';
+import Ic_nor_me from '../../images/ic_nor_me.png';
+
+const AiErHomeNavigationTabNavigator = TabNavigator({
+    AiErLife: {
+        screen: AiErLife,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
-            tabBarLabel:  '主页',
-            tabBarIcon: ({tintColor,focused}) => (
+            tabBarLabel: '主页',
+            tabBarIcon: ({tintColor, focused}) => (
                 focused
                     ?
                     <Image
-                        source={require('../../images/ic_press_home.png')}
+                        source={Ic_press_home}
                         style={[styles.icon]}
                     />
                     :
                     <Image
-                        source={require('../../images/ic_nor_home.png')}
+                        source={Ic_nor_home}
                         style={[styles.icon]}
                     />
             ),
         }
     },
-    MyServiceDoctor:{screen:MyServiceDoctor,
+    MyServiceDoctor: {
+        screen: MyServiceDoctor,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
-            tabBarLabel:  '我的服务',
-            tabBarIcon: ({tintColor,focused}) => (
+            tabBarLabel: '我的服务',
+            tabBarIcon: ({tintColor, focused}) => (
                 focused
                     ?
                     <Image
-                        source={require('../../images/ic_press_service.png')}
+                        source={Ic_press_service}
                         style={[styles.icon]}
                     />
                     :
                     <Image
-                        source={require('../../images/ic_nor_service.png')}
+                        source={Ic_nor_service}
                         style={[styles.icon]}
                     />
             ),
         }
     },
-    UserPersonalInformation:{screen:UserPersonalInformation,
+    UserPersonalInformation: {
+        screen: UserPersonalInformation,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
-            tabBarLabel:  '个人中心',
-            tabBarIcon: ({tintColor,focused}) => (
+            tabBarLabel: '个人中心',
+            tabBarIcon: ({tintColor, focused}) => (
                 focused
                     ?
                     <Image
-                        source={require('../../images/ic_press_me.png')}
+                        source={Ic_press_me}
                         style={[styles.icon]}
                     />
                     :
                     <Image
-                        source={require('../../images/ic_nor_me.png')}
+                        source={Ic_nor_me}
                         style={[styles.icon]}
                     />
             ),
@@ -97,10 +108,10 @@ const AiErHomeNavigationTabNavigator=TabNavigator({
     },
 })
 
-const styles=StyleSheet.create({
-    icon:{
-        height:26,
-        width:26
+const styles = StyleSheet.create({
+    icon: {
+        height: 26,
+        width: 26
     }
 })
 

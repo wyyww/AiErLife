@@ -20,6 +20,14 @@ import NetUitl from './plugins/NetUitl';
 import API from './plugins/API'
 import ItemCell from './plugins/ItemCell';
 
+
+import Head from '../images/head.jpg';
+import Icon_edit from '../images/icon_edit.png';
+import Icon_password_red from '../images/icon_password_red.png';
+import Icon_appointment from '../images/icon_appointment.png';
+import Icon_people from '../images/icon_people.png';
+import Icon_message from '../images/icon_message.png';
+import Icon_info from '../images/icon_info.png'
 export default class UserPersonalInformation extends Component {
 
     static navigationOptions={
@@ -93,7 +101,7 @@ export default class UserPersonalInformation extends Component {
             <View >
                     <TouchableHighlight underlayColor='transparent' >
                         <View style={styles.tweetContainer}>
-                            <Image source={require('../images/head.jpg')} style={styles.avatar}/>
+                            <Image source={Head} style={styles.avatar}/>
                             <View style={styles.rightContainer}>
                                 <View style={styles.userContainer}>
                                     <Text style={styles.name}>Name:{this.state.name}</Text>
@@ -108,7 +116,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={false}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_edit.png')}>
+                    icon={Icon_edit}>
                     编辑个人信息
                 </ItemCell>
                 <ItemCell
@@ -117,7 +125,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={false}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_password_red.png')}>
+                    icon={Icon_password_red}>
                     修改密码
                 </ItemCell>
                 <ItemCell
@@ -126,7 +134,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={true}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_appointment.png')}>
+                    icon={Icon_appointment}>
                     我的预约
                 </ItemCell>
                 <ItemCell
@@ -135,7 +143,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={true}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_people.png')}>
+                    icon={Icon_people}>
                     家庭联系人
                 </ItemCell>
                 <ItemCell
@@ -144,7 +152,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={false}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_message.png')}>
+                    icon={Icon_message}>
                     意见反馈
                 </ItemCell>
                 <ItemCell
@@ -153,7 +161,7 @@ export default class UserPersonalInformation extends Component {
                     showBottomBorder={false}
                     iconStyle={itemCellColor.feedbackIcon}
                     containerStyle={itemCellColor.container}
-                    icon={require('../images/icon_info.png')}>
+                    icon={Icon_info}>
                     关于
                 </ItemCell>
 

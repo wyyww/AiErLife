@@ -28,8 +28,8 @@ export default class LoginIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'15029972629',
-            password: '111111',
+            phone:'',
+            password: '',
             circleSize: 0,
             animating: true,
         }

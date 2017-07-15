@@ -26,7 +26,12 @@ import API from './plugins/API';
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
 
-
+//本地图片需要使用import引入，才能正常的显示
+import Home_banner from '../images/pic_home_banner.png';
+import Icon_fuzhen from '../images/icon_fuzhen.png';
+import Icon_aierzhensuo from '../images/icon_aierzhensuo.png';
+import Icon_mingyilianmeng from '../images/icon_mingyilianmeng.png';
+import Icon_major from '../images/icon_major.png';
 export default class AiErLife extends Component {
 
     static navigationOptions={
@@ -75,7 +80,8 @@ export default class AiErLife extends Component {
 
     _renderRow(rowData){
         return (
-            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
+            // onPress={this._onPressRow.bind(this)}
+            <TouchableHighlight >
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
@@ -98,7 +104,7 @@ export default class AiErLife extends Component {
     render() {
         return (
             <ScrollView >
-               <Image style={styles.home_banner} source={require('../images/pic_home_banner.png')} />
+               <Image style={styles.home_banner} source={Home_banner} />
                 <View style={{flexDirection:'row'}}>
                     <View style={styles.header_nav}>
                             <View style={styles.header_nav_left}>
@@ -106,7 +112,7 @@ export default class AiErLife extends Component {
                                 <Text>及时复诊预约</Text>
                             </View>
                             <View >
-                                <Image style={styles.header_nav_banner} source={require('../images/icon_fuzhen.png')}/>
+                                <Image style={styles.header_nav_banner} source={Icon_fuzhen}/>
                             </View>
                     </View>
                     <View style={styles.header_nav} >
@@ -115,7 +121,7 @@ export default class AiErLife extends Component {
                                 <Text>名医坐诊</Text>
                             </View>
                             <View >
-                                <Image style={styles.header_nav_banner} source={require('../images/icon_aierzhensuo.png')}/>
+                                <Image style={styles.header_nav_banner} source={Icon_aierzhensuo}/>
                             </View>
                     </View>
                 </View>
@@ -126,7 +132,7 @@ export default class AiErLife extends Component {
                             <Text>线上咨询</Text>
                         </View>
                         <View >
-                            <Image style={styles.header_nav_banner} source={require('../images/icon_mingyilianmeng.png')}/>
+                            <Image style={styles.header_nav_banner} source={Icon_mingyilianmeng}/>
                         </View>
                     </View>
                     <View style={styles.header_nav}>
@@ -135,7 +141,7 @@ export default class AiErLife extends Component {
                             <Text>依赖商户</Text>
                         </View>
                         <View >
-                            <Image style={styles.header_nav_banner} source={require('../images/icon_major.png')}/>
+                            <Image style={styles.header_nav_banner} source={Icon_major}/>
                         </View>
                     </View>
                 </View>
