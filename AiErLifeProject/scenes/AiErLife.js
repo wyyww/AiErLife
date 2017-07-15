@@ -103,10 +103,10 @@ export default class AiErLife extends Component {
     }
     render() {
         return (
-            <ScrollView >
+            <ScrollView style={styles.container}>
                <Image style={styles.home_banner} source={Home_banner} />
                 <View style={{flexDirection:'row'}}>
-                    <View style={styles.header_nav}>
+                    <View style={[styles.header_nav,styles.header_bottom_width,styles.header_right_width]}>
                             <View style={styles.header_nav_left}>
                                 <Text style={styles.header_nav_left_topic}>复诊</Text>
                                 <Text>及时复诊预约</Text>
@@ -115,7 +115,7 @@ export default class AiErLife extends Component {
                                 <Image style={styles.header_nav_banner} source={Icon_fuzhen}/>
                             </View>
                     </View>
-                    <View style={styles.header_nav} >
+                    <View style={[styles.header_nav,styles.header_bottom_width]} >
                             <View  style={styles.header_nav_left} >
                                     <Text style={styles.header_nav_left_topic} onPress={this._onButtonClickNavigateToAiErClnic.bind(this)}>爱尔诊所</Text>
                                 <Text>名医坐诊</Text>
@@ -126,7 +126,7 @@ export default class AiErLife extends Component {
                     </View>
                 </View>
                 <View style={{flexDirection:'row'}}>
-                    <View style={styles.header_nav}>
+                    <View style={[styles.header_nav,styles.header_bottom_width,styles.header_right_width]}>
                         <View  style={styles.header_nav_left}>
                             <Text style={styles.header_nav_left_topic}>名医联盟</Text>
                             <Text>线上咨询</Text>
@@ -135,7 +135,7 @@ export default class AiErLife extends Component {
                             <Image style={styles.header_nav_banner} source={Icon_mingyilianmeng}/>
                         </View>
                     </View>
-                    <View style={styles.header_nav}>
+                    <View style={[styles.header_nav,styles.header_bottom_width]}>
                         <View  style={styles.header_nav_left}>
                             <Text style={styles.header_nav_left_topic}>商户联盟</Text>
                             <Text>依赖商户</Text>
@@ -145,10 +145,13 @@ export default class AiErLife extends Component {
                         </View>
                     </View>
                 </View>
+                <View>
+                    <Text style={styles.divide_line}></Text>
+                </View>
                 <View style={styles.doctor_top}>
                     <Text >名医联盟推荐医生</Text >
                 </View>
-                <View style={{flex: 1, paddingTop: 22}}>
+                <View style={{flex: 1, paddingTop: 10}}>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this._renderRow.bind(this)}
@@ -161,25 +164,34 @@ export default class AiErLife extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-        height:height,
+        backgroundColor:'#F5FCFF',
+            // '#F5FCFF',
+    },
+    divide_line:{
+       width:width,
+        height:10,
+        backgroundColor:'#808080',
     },
     home_banner: {
+        width:width,
         height:150,
+    },
+    header_bottom_width:{
+        borderBottomWidth:1,
+        borderColor:'#808080',
+    },
+    header_right_width:{
+        borderRightWidth:1,
+        borderColor:'#808080',
     },
     header_nav:{
         width:width/2,
         flexDirection:'row',
-        justifyContent:'center',
-        borderWidth:1,
-        borderColor:'#808080',
+        justifyContent:'space-around',
     },
     header_nav_left:{
         justifyContent:'flex-start',
-         padding:10,
+         padding:5,
     },
     header_nav_left_topic:{
        fontSize:16,
@@ -192,14 +204,14 @@ const styles = StyleSheet.create({
     },
     doctor_top:{
         width:width,
-        height:30,
-        marginTop:5,
-        padding:10,
+        height:20,
+        marginTop:10,
+        paddingLeft:15,
         justifyContent:'flex-start',
     },
     list_frame:{
         width:width,
-        height:130,
+        height:110,
         borderTopWidth:1,
         flexDirection:'row',
         padding:20,
