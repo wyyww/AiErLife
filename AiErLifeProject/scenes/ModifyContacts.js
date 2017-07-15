@@ -9,10 +9,17 @@ import {
     Button,
     TextInput,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage,
+    Alert
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
+
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API'
+
+
 let Dimensions=require('Dimensions');
 var {height, width} = Dimensions.get('window');
 
@@ -25,14 +32,39 @@ export default class ModifyContacts extends Component {
     constructor(props){
         super(props);
         this.state={
-
+            token:'',
+            address:'',
+            gender:'',
+            identity_card:'',
+            name:'',
+            id:'',
+            phone:''
         }
+    }
+
+    componentWillMount(){
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{})
+        })
+        const prevParams=this.props.navigation.state;
+        this.setState({
+            address:prevParams.params.address,
+            gender:prevParams.params.gender,
+            identity_card:prevParams.params.identity_card,
+            name:prevParams.params.name,
+            phone:prevParams.params.phone,
+            id:prevParams.params.id,
+        },()=>{})
+
+
     }
 
     onSelect(index, value){
         this.setState({
-            text: `Selected index: ${index} , value: ${value}`
-        })
+            gender: value+1
+        },()=>{})
     }
 
     render() {
@@ -40,37 +72,48 @@ export default class ModifyContacts extends Component {
             <View style={styles.container}>
                 <View style={styles.selfMessage}>
                     <Text>姓名</Text>
-                    <TextInput style={styles.textContainer} underlineColorAndroid="transparent"/>
+                    <TextInput value={this.state.name}
+                               onChangeText={(name) => this.setState({name})}
+                               style={styles.textContainer}
+                               underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>身份证</Text>
-                    <TextInput style={styles.textContainer} underlineColorAndroid="transparent"/>
+                    <TextInput value={this.state.identity_card}
+                               onChangeText={(identity_card) => this.setState({identity_card})}
+                               style={styles.textContainer}
+                               underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>性别</Text>
-                    <RadioGroup style={{flexDirection:'row'}} onSelect = {(index, value) => this.onSelect(index, value)}>
-                        <RadioButton value={'男'} >
+                    <RadioGroup style={{flexDirection:'row'}} onSelect = {(index, value) => this.onSelect(index, value)} selectedIndex={this.state.gender - 1}>
+                        <RadioButton value={0} >
                             <Text>男</Text>
                         </RadioButton>
-                        <RadioButton value={'女'}>
+                        <RadioButton value={1}>
                             <Text>女</Text>
                         </RadioButton>
                     </RadioGroup>
-                    {/*<Text style={styles.text}>{this.state.text}</Text>*/}
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>联系电话</Text>
-                    <TextInput style={styles.textContainer}  underlineColorAndroid="transparent"/>
+                    <TextInput value={this.state.phone}
+                               onChangeText={(phone) => this.setState({phone})}
+                               style={styles.textContainer}
+                               underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>地址</Text>
-                    <TextInput style={styles.textContainer}  underlineColorAndroid="transparent"/>
+                    <TextInput value={this.state.address}
+                               onChangeText={(address) => this.setState({address})}
+                               style={styles.textContainer}
+                               underlineColorAndroid="transparent"/>
                 </View>
                 <View style={styles.warmPrompt}>
                     <Text>温馨提示</Text>
                     <Text>请您正确填写个人信息，以便为您带来更优质的服务</Text>
                 </View>
-                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton}>
+                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton} onPress={this._buttonClickModifyContactMessages.bind(this)}>
                     <Text style={styles.logoutButtonFontSize}>保存</Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor='transparent' style={[styles.lugoutButton,{backgroundColor:'#ff0000'}]}>
@@ -78,6 +121,30 @@ export default class ModifyContacts extends Component {
                 </TouchableHighlight>
             </View>
         );
+    }
+
+    //修改用户信息
+    _buttonClickModifyContactMessages(){
+        let that=this;
+        // console.log(this.state.token)
+       let params={
+           token:this.state.token,
+           address:this.state.address,
+           gender:this.state.gender,
+           identity_card:this.state.identity_card,
+           name:this.state.name,
+           id:this.state.id,
+           phone:this.state.phone
+       }
+
+        NetUitl.post(API.APIList.user_patient_update,params,function(res){
+            if(res.success==true){
+                Alert.alert('修改成功')
+            }
+            else{
+                Alert.alert('网络错误，请重试')
+            }
+        })
     }
 
 

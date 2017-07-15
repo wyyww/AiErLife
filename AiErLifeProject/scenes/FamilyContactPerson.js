@@ -74,7 +74,7 @@ export default class FamilyContactPerson extends Component {
     }
     _renderRow(rowData){
         return (
-            <TouchableHighlight onPress={this._onPressRow.bind(this)}>
+            <TouchableHighlight onPress={this._onPressRow.bind(this,rowData)}>
                 <View style={styles.list_frame}>
                    <Text style={{fontSize:17}}>{rowData.name}</Text>
                     <View style={styles.list_content}>
@@ -91,10 +91,13 @@ export default class FamilyContactPerson extends Component {
     }
 
     //修改家庭联系人信息
-    _onPressRow(){
-        console.log('家庭联系人');
-        const { navigate } =this.props.navigation;
-        navigate('ModifyContacts');
+    _onPressRow(rowData){
+        const navigationAction=NavigationActions.navigate({
+            routeName:'ModifyContacts',
+             params:rowData,
+            // action:NavigationActions.navigate({routeName:''})这个官网说给子元素使用的，很蒙蔽啊
+        })
+        this.props.navigation.dispatch(navigationAction)
     }
     render() {
         return (
