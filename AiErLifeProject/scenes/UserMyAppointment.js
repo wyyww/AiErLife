@@ -144,7 +144,7 @@ class MyAppointmentAlreadyPaid extends Component {
         }
         NetUitl.get(API.APIList.normal_user_paid, params, function (response) {
             let res = response.result;
-            console.log(res);
+            // console.log(res);
             that.setState({
                 dataSource: that.state.dataSource.cloneWithRows(res)
             })

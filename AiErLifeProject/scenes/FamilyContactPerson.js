@@ -10,16 +10,19 @@ import {
     TextInput,
     ListView,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API'
 
 let thes;
 export default class FamilyContactPerson extends Component {
 
     static navigationOptions={
         headerTitle:'家庭联系人',
-        // headerBackTitle:'个人中心',
         headerRight:<Button title="添加" onPress={()=>{
             //添加新的家庭联系人
             const { navigate } =thes.props.navigation;
@@ -31,53 +34,63 @@ export default class FamilyContactPerson extends Component {
         thes=this;
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                contactName:'媳妇',
-                contactTelephone:"15529625328",
-                contactAddress:"北京",
-            },{
-                contactName:'老爸',
-                contactTelephone:"18156749532",
-                contactAddress:"杭州",
-            },{
-                contactName:'老张',
-                contactTelephone:"15529635228",
-                contactAddress:"北京",
-            },{
-                contactName:'同学',
-                contactTelephone:"18869625328",
-                contactAddress:"南京",
-            },{
-                contactName:'王宇',
-                contactTelephone:"15537565328",
-                contactAddress:"上海",
-            },{
-                contactName:'兄弟',
-                contactTelephone:"15529625690",
-                contactAddress:"合肥",
-            },]),
+            normal_user_id:'',
+            token:'',
+            dataSource: ds,
         };
     }
 
+    componentDidMount(){
+        AsyncStorage.getItem('normal_user_id',(err,res)=>{
+            // console.log(res);
+            this.setState({
+                normal_user_id:res,
+            })
+        })
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._onFreshData()
+            })
+        })
+
+    }
+
+    _onFreshData(){
+        let that=this;
+        let params={
+            normal_user_id:this.state.normal_user_id,
+            token:this.state.token,
+        }
+        NetUitl.get(API.APIList.user_patient_list,params,function(response){
+            let res=response.result;
+            // console.log(res);
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res)
+            })
+
+        })
+    }
     _renderRow(rowData){
         return (
             <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
-                   <Text style={{fontSize:17}}>{rowData.contactName}</Text>
+                   <Text style={{fontSize:17}}>{rowData.name}</Text>
                     <View style={styles.list_content}>
                         <Image source={require('../images/icon_phone.png')} style={styles.list_icon}></Image>
-                        <Text>{rowData.contactTelephone}</Text>
+                        <Text>{rowData.phone}</Text>
                     </View>
                     <View  style={styles.list_content}>
                         <Image source={require('../images/icon_address.png')} style={styles.list_icon}></Image>
-                        <Text >{rowData.contactAddress}</Text>
+                        <Text >{rowData.address}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
         )
     }
 
-//修改家庭联系人信息
+    //修改家庭联系人信息
     _onPressRow(){
         console.log('家庭联系人');
         const { navigate } =this.props.navigation;
@@ -110,7 +123,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     list_icon:{
-        width:22,
-        height:22,
+        width:20,
+        height:20,
     }
 });
