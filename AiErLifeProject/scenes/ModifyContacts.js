@@ -1,7 +1,5 @@
-
-
 //用户个人信息，
-import React,{ Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
@@ -13,58 +11,61 @@ import {
     AsyncStorage,
     Alert
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import {NavigationActions} from 'react-navigation';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 import NetUitl from './plugins/NetUitl';
 import API from './plugins/API'
 
 
-let Dimensions=require('Dimensions');
+let Dimensions = require('Dimensions');
 var {height, width} = Dimensions.get('window');
 
 export default class ModifyContacts extends Component {
 
-    static navigationOptions={
-        title:'修改联系人信息',
+    static navigationOptions = {
+        title: '修改联系人信息',
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            token:'',
-            address:'',
-            gender:'',
-            identity_card:'',
-            name:'',
-            id:'',
-            phone:''
+        this.state = {
+            token: '',
+            address: '',
+            gender: '',
+            identity_card: '',
+            name: '',
+            id: '',
+            phone: ''
         }
     }
 
-    componentWillMount(){
-        AsyncStorage.getItem('myToken',(err,res)=>{
+    componentWillMount() {
+        AsyncStorage.getItem('myToken', (err, res) => {
             this.setState({
-                token:res,
-            },()=>{})
+                token: res,
+            }, () => {
+            })
         })
-        const prevParams=this.props.navigation.state;
+        const prevParams = this.props.navigation.state;
         this.setState({
-            address:prevParams.params.address,
-            gender:prevParams.params.gender,
-            identity_card:prevParams.params.identity_card,
-            name:prevParams.params.name,
-            phone:prevParams.params.phone,
-            id:prevParams.params.id,
-        },()=>{})
+            address: prevParams.params.address,
+            gender: prevParams.params.gender,
+            identity_card: prevParams.params.identity_card,
+            name: prevParams.params.name,
+            phone: prevParams.params.phone,
+            id: prevParams.params.id,
+        }, () => {
+        })
 
 
     }
 
-    onSelect(index, value){
+    onSelect(index, value) {
         this.setState({
-            gender: value+1
-        },()=>{})
+            gender: value + 1
+        }, () => {
+        })
     }
 
     render() {
@@ -86,8 +87,9 @@ export default class ModifyContacts extends Component {
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>性别</Text>
-                    <RadioGroup style={{flexDirection:'row'}} onSelect = {(index, value) => this.onSelect(index, value)} selectedIndex={this.state.gender - 1}>
-                        <RadioButton value={0} >
+                    <RadioGroup style={{flexDirection: 'row'}} onSelect={(index, value) => this.onSelect(index, value)}
+                                selectedIndex={this.state.gender - 1}>
+                        <RadioButton value={0}>
                             <Text>男</Text>
                         </RadioButton>
                         <RadioButton value={1}>
@@ -113,10 +115,12 @@ export default class ModifyContacts extends Component {
                     <Text>温馨提示</Text>
                     <Text>请您正确填写个人信息，以便为您带来更优质的服务</Text>
                 </View>
-                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton} onPress={this._buttonClickModifyContactMessages.bind(this)}>
+                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton}
+                                    onPress={this._buttonClickModifyContactMessages.bind(this)}>
                     <Text style={styles.logoutButtonFontSize}>保存</Text>
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor='transparent' style={[styles.lugoutButton,{backgroundColor:'#ff0000'}]}>
+                <TouchableHighlight underlayColor='transparent'
+                                    style={[styles.lugoutButton, {backgroundColor: '#ff0000'}]}>
                     <Text style={styles.logoutButtonFontSize}>取消</Text>
                 </TouchableHighlight>
             </View>
@@ -124,24 +128,24 @@ export default class ModifyContacts extends Component {
     }
 
     //修改用户信息
-    _buttonClickModifyContactMessages(){
-        let that=this;
+    _buttonClickModifyContactMessages() {
+        let that = this;
         // console.log(this.state.token)
-       let params={
-           token:this.state.token,
-           address:this.state.address,
-           gender:this.state.gender,
-           identity_card:this.state.identity_card,
-           name:this.state.name,
-           id:this.state.id,
-           phone:this.state.phone
-       }
+        let params = {
+            token: this.state.token,
+            address: this.state.address,
+            gender: this.state.gender,
+            identity_card: this.state.identity_card,
+            name: this.state.name,
+            id: this.state.id,
+            phone: this.state.phone
+        }
 
-        NetUitl.post(API.APIList.user_patient_update,params,function(res){
-            if(res.success==true){
+        NetUitl.post(API.APIList.user_patient_update, params, function (res) {
+            if (res.success == true) {
                 Alert.alert('修改成功')
             }
-            else{
+            else {
                 Alert.alert('网络错误，请重试')
             }
         })
@@ -158,44 +162,44 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
-    selfMessage:{
+    selfMessage: {
         // flexGrow:1,
-        flexDirection:'row',
-        alignItems:'center',
-        borderBottomWidth:1,
-        height:50,
-        margin:5,
-        width:width-20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        height: 50,
+        margin: 5,
+        width: width - 20,
         // padding:5,
     },
-    textContainer:{
-        width:width/2,
-        padding:0,
-        marginLeft:50,
-        alignSelf:'center'
+    textContainer: {
+        width: width / 2,
+        padding: 0,
+        marginLeft: 50,
+        alignSelf: 'center'
     },
-    warmPrompt:{
-        justifyContent:'flex-start',
-        alignItems:'flex-start',
-        borderWidth:1,
-        borderRadius:4,
-        margin:5,
-        height:50,
+    warmPrompt: {
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        borderWidth: 1,
+        borderRadius: 4,
+        margin: 5,
+        height: 50,
     },
-    lugoutButton:{
-        backgroundColor:'#40e0d0',
-        borderWidth:0,
-        margin:5,
-        paddingTop:8,
-        paddingBottom:8,
-        borderRadius:4,
-        alignItems:'center',
-        width:width-20,
+    lugoutButton: {
+        backgroundColor: '#40e0d0',
+        borderWidth: 0,
+        margin: 5,
+        paddingTop: 8,
+        paddingBottom: 8,
+        borderRadius: 4,
+        alignItems: 'center',
+        width: width - 20,
 
     },
-    logoutButtonFontSize:{
-        fontSize:18,
-        color:'#fff'
+    logoutButtonFontSize: {
+        fontSize: 18,
+        color: '#fff'
     }
 
 });

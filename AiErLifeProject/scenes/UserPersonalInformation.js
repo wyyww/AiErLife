@@ -157,13 +157,25 @@ export default class UserPersonalInformation extends Component {
                     关于
                 </ItemCell>
 
-                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton}>
+                <TouchableHighlight underlayColor='transparent' style={styles.lugoutButton} onPress={this._LogOffButtonResetRoute.bind(this)}>
                     <Text style={styles.logoutButtonFontSize}>退出登录</Text>
                 </TouchableHighlight>
             </View>
         );
     }
 
+    //退出登录
+    _LogOffButtonResetRoute(){
+        AsyncStorage.removeItem('normal_user_id',(err,res)=>{})
+        AsyncStorage.removeItem('myToken',(err,res)=>{})
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'LoginIn'})
+            ]
+        })
+        this.props.navigation.dispatch(resetAction)
+    }
     _gotoView(){
         console.log('暂时没提供有什么用处');
     }

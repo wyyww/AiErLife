@@ -65,7 +65,6 @@ export default class FamilyContactPerson extends Component {
         }
         NetUitl.get(API.APIList.user_patient_list,params,function(response){
             let res=response.result;
-            // console.log(res);
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(res)
             })
