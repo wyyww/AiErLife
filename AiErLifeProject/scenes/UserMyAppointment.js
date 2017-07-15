@@ -1,7 +1,5 @@
-
-
 //用户中我的预约界面
-import React,{ Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
@@ -9,69 +7,91 @@ import {
     Button,
     TextInput,
     ListView,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
+import {StackNavigator} from 'react-navigation';
+import {TabNavigator} from "react-navigation";
+
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
+
+
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
 
+//我的预约中未付款的
 class MyAppointmentUnPaid extends Component {
-    static navigationOptions={
-        title:'我的预约',
+    static navigationOptions = {
+        title: '我的预约',
     };
+
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                reservationName:'邓超（新生儿）',
-                reservationType:'加急预约',
-                reservationSection:"口腔科",
-                appointmentDoctor:'孙医生',
-                reservationDoctorJobNumber:"007",
-                reservationTime:"2017-07-16 17:00:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'王皓（新生儿）',
-                reservationType:'普通预约',
-                reservationSection:"新生儿科",
-                appointmentDoctor:'李医生',
-                reservationDoctorJobNumber:"057",
-                reservationTime:"2017-07-16 17:00:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'王佳玉',
-                reservationType:'加急预约',
-                reservationSection:"口腔科",
-                appointmentDoctor:'孙医生',
-                reservationDoctorJobNumber:"007",
-                reservationTime:"2017-03-16 17:06:00",
-                reservationExpense:'0.00',
-            }]),
+            token: '',
+            normal_user_id: '',
+            dataSource: ds,
         };
     }
-    _renderRow(rowData){
+
+    componentDidMount() {
+        AsyncStorage.getItem('normal_user_id', (err, res) => {
+            // console.log(res);
+            this.setState({
+                normal_user_id: res,
+            })
+        })
+        AsyncStorage.getItem('myToken', (err, res) => {
+            // console.log(res)
+            this.setState({
+                token: res,
+            }, () => {
+                this._freshingData()
+            })
+        });
+    }
+
+    _freshingData() {
+        let that = this;
+        let params = {
+            token: this.state.token,
+            normal_user_id: this.state.normal_user_id,
+        }
+        NetUitl.get(API.APIList.normal_user_unpaid, params, function (response) {
+            let res = response.result;
+            // console.log(res);
+            that.setState({
+                dataSource: that.state.dataSource.cloneWithRows(res)
+            })
+        })
+    }
+
+    _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => {this._onPressRow}}>
+            <TouchableHighlight onPress={() => {
+                this._onPressRow
+            }}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_row}>
-                        <Text>{rowData.reservationTime}{rowData.reservationName} </Text>
-                        <Text>{rowData.reservationType}</Text>
+                        <Text>{rowData.appointment_time}{rowData.patient_name} </Text>
+                        <Text>{rowData.time_type == 1 ? "普通" : rowData.time_type == 2 ? "加急" : "实时"}预约</Text>
                     </View>
-                        <View style={styles.list_row}>
-                            <Text >{rowData.reservationSection} {rowData.appointmentDoctor}({rowData.reservationDoctorJobNumber})</Text>
-                            <Text>￥{rowData.reservationExpense}</Text>
-                        </View>
+                    <View style={styles.list_row}>
+                        <Text >{rowData.doctor_department} {rowData.doctor_name}</Text>
+                        <Text>￥{rowData.price}</Text>
+                    </View>
                 </View>
             </TouchableHighlight >
         )
     }
 
-    _onPressRow(){
+    _onPressRow() {
         console.log('这是已经预约的内容');
     }
+
     render() {
         return (
             <ListView
@@ -85,75 +105,65 @@ class MyAppointmentUnPaid extends Component {
 //已经付款的界面
 class MyAppointmentAlreadyPaid extends Component {
 
-    static navigationOptions={
-        title:'我的预约',
+    static navigationOptions = {
+        title: '我的预约',
     };
+
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows([{
-                reservationName:'邓超（新生儿）',
-                reservationType:'加急预约',
-                reservationSection:"口腔科",
-                appointmentDoctor:'孙医生',
-                reservationDoctorJobNumber:"007",
-                reservationTime:"2017-07-16 17:00:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'王皓（新生儿）',
-                reservationType:'普通预约',
-                reservationSection:"新生儿科",
-                appointmentDoctor:'李医生',
-                reservationDoctorJobNumber:"057",
-                reservationTime:"2017-07-16 17:00:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'王佳玉',
-                reservationType:'加急预约',
-                reservationSection:"口腔科",
-                appointmentDoctor:'孙医生',
-                reservationDoctorJobNumber:"007",
-                reservationTime:"2017-03-16 17:06:00",
-                reservationExpense:'0.00',
-            },{
-                reservationName:'李美玲',
-                reservationType:'加急预约',
-                reservationSection:"内科",
-                appointmentDoctor:'王医生',
-                reservationDoctorJobNumber:"025",
-                reservationTime:"2017-07-17 13:00:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'刘宇鹏',
-                reservationType:'普通预约',
-                reservationSection:"外科",
-                appointmentDoctor:'刘医生',
-                reservationDoctorJobNumber:"078",
-                reservationTime:"2017-07-15 17:34:00",
-                reservationExpense:'0.01',
-            },{
-                reservationName:'孙丽丽（新生儿）',
-                reservationType:'普通预约',
-                reservationSection:"心脏科",
-                appointmentDoctor:'宋医生',
-                reservationDoctorJobNumber:"008",
-                reservationTime:"2017-04-16 12:20:00",
-                reservationExpense:'0.00',
-            },]),
+            normal_user_id: '',
+            token: '',
+            dataSource: ds,
         };
     }
-    _renderRow(rowData){
+
+    componentDidMount() {
+        AsyncStorage.getItem('normal_user_id', (err, res) => {
+            // console.log(res);
+            this.setState({
+                normal_user_id: res,
+            })
+        })
+        AsyncStorage.getItem('myToken', (err, res) => {
+            // console.log(res)
+            this.setState({
+                token: res,
+            }, () => {
+                this._freshingData()
+            })
+        });
+    }
+
+    _freshingData() {
+        let that = this;
+        let params = {
+            token: this.state.token,
+            normal_user_id: this.state.normal_user_id,
+        }
+        NetUitl.get(API.APIList.normal_user_paid, params, function (response) {
+            let res = response.result;
+            console.log(res);
+            that.setState({
+                dataSource: that.state.dataSource.cloneWithRows(res)
+            })
+        })
+    }
+
+    _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => {this._onPressRow}}>
+            <TouchableHighlight onPress={() => {
+                this._onPressRow
+            }}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_row}>
-                        <Text>{rowData.reservationTime}{rowData.reservationName} </Text>
-                        <Text>{rowData.reservationType}</Text>
+                        <Text>{rowData.appointment_time}{rowData.patient_name} </Text>
+                        <Text>{rowData.time_type == 1 ? "普通" : rowData.time_type == 2 ? "加急" : "实时"}预约</Text>
                     </View>
                     <View style={styles.list_row}>
-                        <Text >{rowData.reservationSection} {rowData.appointmentDoctor}({rowData.reservationDoctorJobNumber})</Text>
-                        <Text>￥{rowData.reservationExpense}</Text>
+                        <Text >{rowData.doctor_department} {rowData.doctor_name}</Text>
+                        <Text>￥{rowData.price}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -163,6 +173,7 @@ class MyAppointmentAlreadyPaid extends Component {
     _onPressRow() {
         console.log('这是我的已支付的页面')
     }
+
     render() {
         return (
             <ListView
@@ -175,33 +186,37 @@ class MyAppointmentAlreadyPaid extends Component {
 
 
 const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#F5FCFF',
-        },
-        list_frame:{
-            width:screenW,
-            // height:70,
-            borderBottomWidth:1,
-            flexDirection:'column',
-            padding:10,
-        },
-    list_row:{
-        flexDirection:'row',
-        justifyContent:'space-between',
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    list_frame: {
+        width: screenW,
+        // height:70,
+        borderBottomWidth: 1,
+        flexDirection: 'column',
+        padding: 10,
+    },
+    list_row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     }
 });
-const UserMyAppointment=TabNavigator({
-    MyAppointmentUnPaid:{screen:MyAppointmentUnPaid,
+const UserMyAppointment = TabNavigator({
+    MyAppointmentUnPaid: {
+        screen: MyAppointmentUnPaid,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
-            tabBarLabel:  '未付款',
-        }},
-    MyAppointmentAlreadyPaid:{screen:MyAppointmentAlreadyPaid,
+            tabBarLabel: '未付款',
+        }
+    },
+    MyAppointmentAlreadyPaid: {
+        screen: MyAppointmentAlreadyPaid,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
-            tabBarLabel:  '已付款',
-        }},
+            tabBarLabel: '已付款',
+        }
+    },
 }, {
     animationEnabled: false, // 切换页面时是否有动画效果
     tabBarPosition: 'top', // 显示在底端，android 默认是显示在页面顶端的

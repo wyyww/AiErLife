@@ -104,7 +104,6 @@ export default class ModifyUserPersonalCenter extends Component {
                             <Text>女</Text>
                         </RadioButton>
                     </RadioGroup>
-                    {/*<Text style={styles.text}>{this.state.text}</Text>*/}
                 </View>
                 <View style={styles.selfMessage}>
                     <Text>地址</Text>
@@ -134,7 +133,6 @@ export default class ModifyUserPersonalCenter extends Component {
                 Alert.alert('网络错误，请重试')
             }
         })
-        // RamirezNi
     }
 
 }

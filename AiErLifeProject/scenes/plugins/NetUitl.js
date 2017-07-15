@@ -2,7 +2,7 @@
  * Created by PC on 2017/6/14.
  */
 
-import React, {Conponent} from 'react';
+import React, {Component} from 'react';
 import {
     Text,
     TextInput,
@@ -11,7 +11,7 @@ import {
     AsyncStorage
 } from 'react-native';
 
-export default class NetUitl extends React.Component {
+export default class NetUitl extends Component {
     // get请求
     // url请求地址
     // params请求参数
