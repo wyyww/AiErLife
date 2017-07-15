@@ -49,7 +49,6 @@ export default class AiErClinic extends Component {
         }
         NetUitl.get(API.APIList.all_hospital,params,function(response){
             //请求得到的医院信息
-            // console.log(response);
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(response.result)
             })
@@ -68,7 +67,6 @@ export default class AiErClinic extends Component {
 
     //跳转到某一个具提的诊室的详细介绍
     _onPressRow(data){
-        // console.log(data);
         const navigateAction=NavigationActions.navigate({
             routeName:'ClinicIntroduction',
             params:{hospital_id:data.id}

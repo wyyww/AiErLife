@@ -18,14 +18,13 @@ import {
 import { NavigationActions } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 
+//网络请求组件
+import NetUitl from './plugins/NetUitl';
+import API from './plugins/API';
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
-
-//网络请求组件
-import NetUitl from './plugins/NetUitl';
-import API from './plugins/API';
 
 
 export default class AiErLife extends Component {
@@ -34,46 +33,38 @@ export default class AiErLife extends Component {
         title:'主页',
     };
 
-    componentDidMount(){
-
-    }
     constructor(props) {
         super(props);
-        const listData=new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
+        const ds=new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
         this.state={
-            myToken:'',
-            dataSource:listData.cloneWithRows([{
-                    name:'邱红涛',
-                    imageSrc:'../images/ben.png',
-                    clinic:"产科 医事",
-                    hospital:"西北妇女儿童医院",
-                    description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
-                },
-                {
-                    name:"邱红涛",
-                    imageSrc:'../images/ben.png',
-                    clinic:"产科 医事",
-                    hospital:"西北妇女儿童医院",
-                    description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
-                },
-                {
-                    name:'邱红涛',
-                    imageSrc:'../images/ben.png',
-                    clinic:"产科 医事",
-                    hospital:"西北妇女儿童医院",
-                    description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
-                },
-                {
-                    name:'邱红涛',
-                    imageSrc:'../images/ben.png',
-                    clinic:"产科 医事",
-                    hospital:"西北妇女儿童医院",
-                    description:"从事妇科临床与教学20余年，擅长处理产中出现的各种异常情况及难产问题"
-                }]
-            ),
+            token:'',
+            dataSource:ds,
         }
     }
 
+    componentDidMount(){
+        // recommend_doctor
+        AsyncStorage.getItem('myToken',(err,res)=>{
+            this.setState({
+                token:res,
+            },()=>{
+                this._getRecommendDoctor()
+            })
+        })
+    }
+    _getRecommendDoctor(){
+        let that=this;
+        let params={
+            token:this.state.token,
+        }
+        NetUitl.get(API.APIList.recommend_doctor,params,(response)=>{
+            // console.log(response)
+            let res=response.result;
+            that.setState({
+                dataSource:that.state.dataSource.cloneWithRows(res)
+            })
+        })
+    }
 
     //跳转到爱尔诊所
     _onButtonClickNavigateToAiErClnic(){
@@ -87,15 +78,15 @@ export default class AiErLife extends Component {
             <TouchableHighlight onPress={this._onPressRow.bind(this)}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
-                        <Image source={require('../images/ben.png')} style={{width:80,height:80}}/>
+                        <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
                     </View>
                     <View style={{paddingLeft:3}}>
                         <View style={{flexDirection:'row',}}>
                             <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.clinic}</Text>
+                            <Text>{rowData.job_title}</Text>
                         </View>
-                        <Text>{rowData.hospital}</Text>
-                        <Text>{rowData.description}</Text>
+                        <Text>{rowData.hospital_name}</Text>
+                        <Text>{rowData.introducation}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -106,7 +97,7 @@ export default class AiErLife extends Component {
     }
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.container}>
+            <ScrollView >
                <Image style={styles.home_banner} source={require('../images/pic_home_banner.png')} />
                 <View style={{flexDirection:'row'}}>
                     <View style={styles.header_nav}>

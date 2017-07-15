@@ -124,7 +124,7 @@ export default class ClinicIntroduction extends Component {
                         <Text>三甲名医出诊</Text>
                         <Text> 勿过无度医疗</Text>
                     </View>
-                    <TouchableHighlight  onPress={()=>this.props.navigation.navigate('ClinicAddress',{latitude:this.state.latitude,longitude:this.state.longitude})}>
+                    <TouchableHighlight  onPress={()=>this.props.navigation.navigate('ClinicAddress',{latitude:this.state.latitude,longitude:this.state.longitude,address:this.state.clinicAddress})}>
                         <View style={styles.text_row}>
                             <View style={{flexDirection:'row'}}>
                                 <Image  source={require('../images/icon_address.png')} style={styles.icon_small_title}/>

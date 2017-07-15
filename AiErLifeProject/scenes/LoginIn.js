@@ -28,7 +28,7 @@ export default class LoginIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone:"",
+            phone:'',
             password: '',
             circleSize: 0,
             animating: true,
@@ -38,7 +38,6 @@ export default class LoginIn extends Component {
     // 15029972629
     // 111111
     componentDidMount() {
-
         AsyncStorage.getItem('phone', (err, res) => {
             this.setState({
                 phone: JSON.parse(res),
@@ -128,7 +127,7 @@ export default class LoginIn extends Component {
                             underlineColorAndroid="transparent"
                             selectTextOnFocus={true}
                             value={this.state.phone}
-                            autoFocus={true}
+                            // autoFocus={true}
                             onChangeText={(phone) => this.setState({phone})}/>
                     </View>
                 </View>
