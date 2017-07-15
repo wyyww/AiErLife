@@ -24,9 +24,9 @@ var Dimensions = require('Dimensions');
 const screenW = Dimensions.get('window').width;
 
 class Confirmed extends React.Component {
-    // static navigationOptions={
-    //     title:'已确认',
-    // };
+    static navigationOptions={
+        title:'我的服务',
+    };
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -102,9 +102,9 @@ class Confirmed extends React.Component {
 }
 
 class WaitForConfirme extends React.Component {
-    // static navigationOptions={
-    //     title:'待确认',
-    // };
+    static navigationOptions={
+        title:'我的服务',
+    };
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -177,9 +177,9 @@ class WaitForConfirme extends React.Component {
     }
 }
 class WaitForReferral extends React.Component {
-    // static navigationOptions={
-    //     title:'待复诊',
-    // };
+    static navigationOptions={
+        title:'我的服务',
+    };
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -253,9 +253,9 @@ class WaitForReferral extends React.Component {
 }
 
 class WaitForPay extends React.Component {
-    // static navigationOptions={
-    //     title:'待支付',
-    // };
+    static navigationOptions={
+        title:'我的服务',
+    };
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
