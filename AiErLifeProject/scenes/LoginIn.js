@@ -1,8 +1,6 @@
-
-
 //登录界面，，登录界面可以跳转到，重置密码，注册，爱尔生活
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     AsyncStorage,
@@ -14,7 +12,7 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
-import { NavigationActions } from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 
 import Logo from '../images/logo.png';
 import IconAccountnumber from '../images/icon_accountnumber.png';
@@ -30,21 +28,38 @@ export default class LoginIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userNumber: '15029972629',
-            userPassword: '111111',
-            circleSize:0,
-            animating:true,
+            phone:"",
+            password: '',
+            circleSize: 0,
+            animating: true,
         }
+    }
+
+    // 15029972629
+    // 111111
+    componentDidMount() {
+
+        AsyncStorage.getItem('phone', (err, res) => {
+            this.setState({
+                phone: JSON.parse(res),
+            })
+        })
+        AsyncStorage.getItem('password', (err, res) => {
+            this.setState({
+                password: JSON.parse(res),
+            })
+        })
     }
 
     //跳转到重置密码页面
     _onButtonClickToResetPossword() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
         navigate('ResetPassword');
     }
+
     //跳转到用户注册界面
     _onButtonClickToRegistered() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
         navigate('RegisteredUser');
     }
 
@@ -52,41 +67,45 @@ export default class LoginIn extends Component {
     //跳转到底部导航，三层路由界面
     _onButtonClickToAiErLife() {
         this.setState({
-            circleSize:'large'
+            circleSize: 'large'
         })
-        let params={
-            'username':this.state.userNumber,
-            'password':this.state.userPassword,
+        let params = {
+            'username': this.state.phone,
+            'password': this.state.password,
         }
 
         //这里需要使用that来代替this，否则会出现this指向不正确；这个就是作用域链的原因
-        let that=this;
-        NetUitl.post(API.APIList.authenticate,params,function(responseData){
+        let that = this;
+        NetUitl.post(API.APIList.authenticate, params, function (responseData) {
             //请求得来的数据
             that.setState({
-                circleSize:0,
+                circleSize: 0,
             })
-            // console.log(responseData);
-            if(responseData.success===true){
-                AsyncStorage.setItem('normal_user_id',JSON.stringify(responseData.result.id)).then(
-                    ()=>{
+            if (responseData.success === true) {
+
+                AsyncStorage.setItem('phone', JSON.stringify(that.state.phone), () => {
+                })
+                AsyncStorage.setItem('password', JSON.stringify(that.state.password), () => {
+                })
+                AsyncStorage.setItem('normal_user_id', JSON.stringify(responseData.result.id)).then(
+                    () => {
                         // console.log('用户的id保存完成')
                     }
                 )
-                AsyncStorage.setItem('myToken',responseData.result.token).then(
-                    ()=>{
+                AsyncStorage.setItem('myToken', responseData.result.token).then(
+                    () => {
                         // console.log('token值保存成功')
                     }
                 )
-                const resetActions=NavigationActions.reset({
-                    index:0,
-                    actions:[
-                        NavigationActions.navigate({routeName:'AiErHomeNavigationTabNavigator'})
+                const resetActions = NavigationActions.reset({
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({routeName: 'AiErHomeNavigationTabNavigator'})
                     ]
                 })
                 that.props.navigation.dispatch(resetActions)
             }
-            else{
+            else {
                 Alert.alert(responseData.error.message)
             }
         })
@@ -94,48 +113,50 @@ export default class LoginIn extends Component {
     }
 
 
-
     render() {
         return (
             <View style={styles.container}>
-                <Image source={Logo} style={{ width: 80, height: 80 }} />
+                <Image source={Logo} style={{width: 80, height: 80}}/>
                 <View style={[styles.flexDirection, styles.topLevelStatus]}>
                     <View style={styles.Icon}>
-                        <Image source={IconAccountnumber} style={styles.img} />
+                        <Image source={IconAccountnumber} style={styles.img}/>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{flex: 1}}>
                         <TextInput
                             style={styles.userInput}
                             placeholder="请输入手机号"
                             underlineColorAndroid="transparent"
                             selectTextOnFocus={true}
-                            value={this.state.userNumber}
-                            onChangeText={(userNumber) => this.setState({ userNumber })} />
+                            value={this.state.phone}
+                            autoFocus={true}
+                            onChangeText={(phone) => this.setState({phone})}/>
                     </View>
                 </View>
                 <View style={[styles.flexDirection, styles.topStatus]}>
                     <View style={styles.Icon}>
-                        <Image source={require('../images/icon_password.png')} style={styles.img} />
+                        <Image source={require('../images/icon_password.png')} style={styles.img}/>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{flex: 1}}>
                         <TextInput
                             style={styles.userInput}
                             placeholder="请输入密码"
                             secureTextEntry={true}
                             selectTextOnFocus={true}
                             underlineColorAndroid="transparent"
-                            value={this.state.userPassword}
-                            onChangeText={(userPassword) => this.setState({ userPassword })} />
+                            value={this.state.password}
+                            onChangeText={(password) => this.setState({password})}/>
                     </View>
                 </View>
-                <TouchableHighlight   onPress={this._onButtonClickToAiErLife.bind(this)} style={[styles.btn, styles.topStatus]}>
+                <TouchableHighlight onPress={this._onButtonClickToAiErLife.bind(this)}
+                                    style={[styles.btn, styles.topStatus]}>
                     <Text>登录</Text>
                 </TouchableHighlight>
                 <ActivityIndicator animating={this.state.animating} size={this.state.circleSize}/>
-                <TouchableHighlight accessibilityLabel="See an informative alert" >
+                <TouchableHighlight accessibilityLabel="See an informative alert">
                     <View style={styles.horizontal}>
-                        <Text style={{ color: '#808080'}} onPress={this._onButtonClickToResetPossword.bind(this)}>忘记密码? </Text>
-                        <Text style={{ color: '#808080'}} onPress={this._onButtonClickToRegistered.bind(this)}>注册</Text>
+                        <Text style={{color: '#808080'}}
+                              onPress={this._onButtonClickToResetPossword.bind(this)}>忘记密码? </Text>
+                        <Text style={{color: '#808080'}} onPress={this._onButtonClickToRegistered.bind(this)}>注册</Text>
                     </View>
                 </TouchableHighlight>
                 <View>
@@ -165,10 +186,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
-        width: 2*width/3,
+        width: 2 * width / 3,
     },
-    topLevelStatus:{
-        marginTop:50,
+    topLevelStatus: {
+        marginTop: 50,
     },
     topStatus: {
         marginTop: 15,
@@ -182,7 +203,7 @@ const styles = StyleSheet.create({
     Icon: {
         height: 40,
         marginTop: 20,
-        
+
     },
     img: {
         width: 20,
@@ -190,16 +211,16 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     btn: {
-        width: 2*width/3,
+        width: 2 * width / 3,
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    loginBg:{
-        width:width,
+    loginBg: {
+        width: width,
         // height:400,
-        resizeMode:'contain',
+        resizeMode: 'contain',
     },
 });

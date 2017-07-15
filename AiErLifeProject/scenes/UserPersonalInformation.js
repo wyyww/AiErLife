@@ -166,8 +166,9 @@ export default class UserPersonalInformation extends Component {
 
     //退出登录
     _LogOffButtonResetRoute(){
-        AsyncStorage.removeItem('normal_user_id',(err,res)=>{})
-        AsyncStorage.removeItem('myToken',(err,res)=>{})
+        AsyncStorage.clear(()=>{
+            // console.log('全部清除了')
+        })
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [

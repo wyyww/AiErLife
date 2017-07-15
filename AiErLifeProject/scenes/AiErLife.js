@@ -75,14 +75,6 @@ export default class AiErLife extends Component {
     }
 
 
-
-  //返回到登录界面
-    _onButtonClickBackToLoginIn(){
-        const backAction = NavigationActions.back();
-        const navigation = this.props.navigation;
-        navigation.dispatch(backAction);
-    }
-
     //跳转到爱尔诊所
     _onButtonClickNavigateToAiErClnic(){
         const { navigate } =this.props.navigation;

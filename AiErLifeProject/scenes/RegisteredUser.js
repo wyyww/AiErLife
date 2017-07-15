@@ -12,6 +12,7 @@ import {
     Image,
     TouchableHighlight,
     Alert,
+    AsyncStorage
 } from 'react-native';
 var Dimensions = require('Dimensions');//获取Dimensions库得到屏幕的宽高
 let {height, width} = Dimensions.get('window')
@@ -46,8 +47,12 @@ export default class RegisteredUser extends Component {
             phone:this.state.userNumber,
         }
         NetUitl.get(API.APIList.send_register_code,params,function(responseData){
-            // console.log(responseData);
-            Alert.alert('发送成功');
+            if(responseData.success===true){
+                Alert.alert('发送成功');
+            }
+           else{
+                Alert.alert('手机号已存在，不要重复注册')
+            }
         })
     }
     //注册用户
@@ -97,6 +102,7 @@ export default class RegisteredUser extends Component {
                             style={styles.userInput}
                             placeholder="请输入手机号"
                             underlineColorAndroid="transparent"
+                            value={this.state.userNumber}
                             onChangeText={(userNumber) => this.setState({ userNumber })} />
                     </View>
                 </View>
@@ -109,8 +115,9 @@ export default class RegisteredUser extends Component {
                             style={styles.userInput}
                             placeholder="请输入验证码"
                             underlineColorAndroid="transparent"
+                            value={this.state.VerificationCode}
                             onChangeText={(VerificationCode) => this.setState({ VerificationCode })} />
-                        <Text style={{padding:5,backgroundColor:"#00ff00"}} onPress={this._onButtonClickToGetVerificationCode.bind(this)}>获取验证码</Text>
+                        <Text style={{padding:5}} onPress={this._onButtonClickToGetVerificationCode.bind(this)}>获取验证码</Text>
                     </View>
                 </View>
                 <View style={[styles.flexDirection, styles.topStatus]}>
@@ -122,6 +129,7 @@ export default class RegisteredUser extends Component {
                             style={styles.userInput}
                             placeholder="请输入密码"
                             underlineColorAndroid="transparent"
+                            value={this.state.userPassword}
                             onChangeText={(userPassword) => this.setState({ userPassword })} />
                     </View>
                 </View>
@@ -134,13 +142,14 @@ export default class RegisteredUser extends Component {
                             style={styles.userInput}
                             placeholder="请输入邀请码"
                             underlineColorAndroid="transparent"
+                            value={this.state.invitationCode}
                             onChangeText={(invitationCode) => this.setState({ invitationCode })} />
                     </View>
                 </View>
-                <TouchableHighlight onPress={this._onButtonClickToRegisteredUser.bind(this)} style={[styles.btn, styles.topStatus,{borderWidth: 1,backgroundColor:'#7cfc00' }]}>
+                <TouchableHighlight onPress={this._onButtonClickToRegisteredUser.bind(this)} style={[styles.btn, styles.topStatus,{borderWidth: 1 }]}>
                     <Text>注册</Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this._onButtonClickToBackLoginIn.bind(this)} style={[styles.btn, styles.topStatus,{borderWidth: 1,backgroundColor:'#fdf5e6' }]}>
+                <TouchableHighlight onPress={this._onButtonClickToBackLoginIn.bind(this)} style={[styles.btn, styles.topStatus,{borderWidth: 1,backgroundColor:'#fff' }]}>
                     <Text>取消</Text>
                 </TouchableHighlight>
             </View>
@@ -173,7 +182,7 @@ const styles = StyleSheet.create({
         width: 250,
     },
     topLevelStatus: {
-        marginTop: 50,
+        marginTop: 30,
     },
     topStatus: {
         marginTop: 15,
