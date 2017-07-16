@@ -110,8 +110,8 @@ const AiErHomeNavigationTabNavigator = TabNavigator({
 
 const styles = StyleSheet.create({
     icon: {
-        height: 26,
-        width: 26
+        height: 30,
+        width: 30
     }
 })
 

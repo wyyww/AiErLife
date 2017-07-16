@@ -13,7 +13,8 @@ import {
     ScrollView,
     ListView,
     Alert,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
@@ -34,9 +35,20 @@ import Icon_mingyilianmeng from '../images/icon_mingyilianmeng.png';
 import Icon_major from '../images/icon_major.png';
 export default class AiErLife extends Component {
 
-    static navigationOptions={
-        title:'主页',
-    };
+    static navigationOptions=({navigation})=>({
+        headerTitle:'爱尔生活',
+        headerTintColor:'#000',
+        headerTitleStyle:{
+            fontSize:18,
+            alignSelf:'center',
+        },
+        headerStyle:{
+            width:width,
+            height: (Platform.OS === 'ios') ? 80 : 40,
+            backgroundColor:'#fff',
+        }
+    })
+    // headerStyle
 
     constructor(props) {
         super(props);
@@ -77,30 +89,6 @@ export default class AiErLife extends Component {
         navigate('AiErClinic');
     }
 
-
-    _renderRow(rowData){
-        return (
-            // onPress={this._onPressRow.bind(this)}
-            <TouchableHighlight >
-                <View style={styles.list_frame}>
-                    <View style={styles.list_icon}>
-                        <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
-                    </View>
-                    <View style={{paddingLeft:3}}>
-                        <View style={{flexDirection:'row',}}>
-                            <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                            <Text>{rowData.job_title}</Text>
-                        </View>
-                        <Text>{rowData.hospital_name}</Text>
-                        <Text>{rowData.introducation}</Text>
-                    </View>
-                </View>
-            </TouchableHighlight >
-        )
-    }
-    _onPressRow(){
-        console.log('sdfd');
-    }
     render() {
         return (
             <ScrollView style={styles.container}>
@@ -160,17 +148,40 @@ export default class AiErLife extends Component {
             </ScrollView>
         );
     }
+
+    _renderRow(rowData){
+        return (
+            // onPress={this._onPressRow.bind(this)}
+            <TouchableHighlight >
+                <View style={styles.list_frame}>
+                    <View style={styles.list_icon}>
+                        <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
+                    </View>
+                    <View style={{paddingLeft:3}}>
+                        <View style={{flexDirection:'row',}}>
+                            <Text style={styles.list_size}>{rowData.name}</Text>
+                            <Text>{rowData.hospital_department_name}&nbsp;{rowData.job_title}</Text>
+                        </View>
+                        <Text style={{paddingTop:5,paddingBottom:5}}>{rowData.hospital_name}</Text>
+                        <Text>{rowData.introducation}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight >
+        )
+    }
+    // _onPressRow(){
+    //     console.log('sdfd');
+    // }
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor:'#F5FCFF',
-            // '#F5FCFF',
     },
     divide_line:{
        width:width,
         height:10,
-        backgroundColor:'#808080',
+        backgroundColor:'#DCDCDC',
     },
     home_banner: {
         width:width,
@@ -178,11 +189,11 @@ const styles = StyleSheet.create({
     },
     header_bottom_width:{
         borderBottomWidth:1,
-        borderColor:'#808080',
+        borderColor:'#DCDCDC',
     },
     header_right_width:{
         borderRightWidth:1,
-        borderColor:'#808080',
+        borderColor:'#DCDCDC',
     },
     header_nav:{
         width:width/2,
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
         color:'#000',
     },
     header_nav_banner:{
-        marginTop:10,
+        marginTop:5,
         width:40,
         height:40,
     },
@@ -211,10 +222,16 @@ const styles = StyleSheet.create({
     },
     list_frame:{
         width:width,
-        height:110,
+        height:120,
         borderTopWidth:1,
+        borderColor:'#DCDCDC',
         flexDirection:'row',
-        padding:20,
+        padding:10,
+    },
+    list_size:{
+        fontSize:17,
+        fontWeight:'bold',
+        paddingRight:20
     },
     list_icon:{
         width:100,
