@@ -1,4 +1,4 @@
-//用户个人信息，
+//修改家庭联系人，
 import React, {Component} from 'react';
 import {
     StyleSheet,
@@ -24,7 +24,10 @@ var {height, width} = Dimensions.get('window');
 export default class ModifyContacts extends Component {
 
     static navigationOptions = {
-        title: '修改联系人信息',
+        headerTitle: '修改联系人信息',
+        headerTitleStyle:{
+            fontSize:17,
+        }
     };
 
     constructor(props) {
@@ -159,25 +162,25 @@ const styles = StyleSheet.create({
     selfMessage: {
         flexDirection: 'row',
         alignItems: 'center',
-        // borderBottomWidth: 1,
-        // borderColor:'#DCDCDC',
-        height: 50,
-        margin: 5,
+        borderBottomWidth: 1,
+        borderColor:'#DCDCDC',
+        paddingLeft:20,
+        width: width,
     },
     textContainer: {
-        width: width / 2,
-        padding: 0,
-        marginLeft: 50,
+        width: width,
+        marginLeft: 20,
         alignSelf: 'center'
     },
     warmPrompt: {
-        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderWidth: 1,
         borderColor:'#DCDCDC',
-        borderRadius: 4,
-        margin: 5,
-        height: 50,
+        padding:5,
+        marginTop:5,
+        marginLeft:10,
+        width:width-20,
+
     },
     lugoutButton: {
         backgroundColor: '#40e0d0',

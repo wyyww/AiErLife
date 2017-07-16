@@ -63,7 +63,7 @@ export default class AddContacts extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <View style={styles.selfMessage}>
                     <Text>姓名</Text>
                     <TextInput value={this.state.name} onChangeText={(name)=>this.setState({name})} style={styles.textContainer} underlineColorAndroid="transparent"/>
@@ -128,24 +128,18 @@ export default class AddContacts extends Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
+
     selfMessage:{
-        // flexGrow:1,
         flexDirection:'row',
         alignItems:'center',
         borderBottomWidth:1,
+        borderColor:'#DCDCDC',
         height:50,
         margin:5,
         width:width-20,
-        // padding:5,
     },
     textContainer:{
-        width:width/2,
+        width:width,
         padding:0,
         marginLeft:50,
         alignSelf:'center'
