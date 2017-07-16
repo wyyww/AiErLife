@@ -10,16 +10,21 @@ import {
     Button,
     TextInput,
     Alert,
+    Platform,
     TouchableHighlight,
     AsyncStorage,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { StackNavigator } from 'react-navigation';
 
+// 获取屏幕宽度
+var Dimensions = require('Dimensions');
+const {width,height} = Dimensions.get('window');
+
+
 import NetUitl from './plugins/NetUitl';
 import API from './plugins/API'
 import ItemCell from './plugins/ItemCell';
-
 
 import Head from '../images/head.jpg';
 import Icon_edit from '../images/icon_edit.png';
@@ -31,7 +36,18 @@ import Icon_info from '../images/icon_info.png'
 export default class UserPersonalInformation extends Component {
 
     static navigationOptions={
-        title:'个人中心',
+       headerTitle:'个人中心',
+        headerTintColor:'#000',
+        headerTitleStyle:{
+            fontSize:17,
+            alignSelf:'center',
+        },
+        headerStyle:{
+            width:width,
+            height: (Platform.OS === 'ios') ? 80 : 40,
+            backgroundColor:'#fff',
+        }
+
     };
     constructor(props){
         super(props);
