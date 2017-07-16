@@ -70,7 +70,7 @@ export default class ModifyContacts extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View >
                 <View style={styles.selfMessage}>
                     <Text>姓名</Text>
                     <TextInput value={this.state.name}
@@ -156,21 +156,13 @@ export default class ModifyContacts extends Component {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
     selfMessage: {
-        // flexGrow:1,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
+        // borderColor:'#DCDCDC',
         height: 50,
         margin: 5,
-        width: width - 20,
-        // padding:5,
     },
     textContainer: {
         width: width / 2,
@@ -182,13 +174,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderWidth: 1,
+        borderColor:'#DCDCDC',
         borderRadius: 4,
         margin: 5,
         height: 50,
     },
     lugoutButton: {
         backgroundColor: '#40e0d0',
-        borderWidth: 0,
         margin: 5,
         paddingTop: 8,
         paddingBottom: 8,

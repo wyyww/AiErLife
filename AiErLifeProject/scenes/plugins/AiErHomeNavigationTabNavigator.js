@@ -100,7 +100,6 @@ const AiErHomeNavigationTabNavigator = TabNavigator({
         },
         style: {
             backgroundColor: '#fff', // TabBar 背景色
-            // height: 44
         },
         labelStyle: {
             fontSize: 10, // 文字大小

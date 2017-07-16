@@ -192,7 +192,7 @@ export default class UserPersonalInformation extends Component {
 
 const itemCellColor={
     container:{
-      backgroundColor:'white',
+      backgroundColor:'#fff',
         margin:10,
         marginBottom:0,
         borderRadius:2,
@@ -205,7 +205,7 @@ const itemCellColor={
         // }
     },
     feedbackIcon:{
-        backgroundColor:'white'
+        backgroundColor:'#fff'
     },
 }
 const styles = StyleSheet.create({

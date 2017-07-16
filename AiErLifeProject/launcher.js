@@ -24,7 +24,7 @@ import MyServiceDoctor from './scenes/MyServiceDoctor';
 import PatientConditionDescription from './scenes/PatientConditionDescription';
 import UserMyAppointment from './scenes/UserMyAppointment';
 import UserPayment from './scenes/UserPayment';
-import ModifyUserPersonalCenter from './scenes/UserPersonalCenter';
+import ModifyUserPersonalCenter from './scenes/ModifyUserPersonalCenter';
 import UserPersonalInformation from './scenes/UserPersonalInformation';
 
 import ItemCell from './scenes/plugins/ItemCell'
