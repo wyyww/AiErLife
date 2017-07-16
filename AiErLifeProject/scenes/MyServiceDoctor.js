@@ -79,11 +79,10 @@ class Confirmed extends React.Component {
                             <Text>{rowData.doctor_job_title}</Text>
                         </View>
                         <Text>{rowData.address}</Text>
-                        <Text>服务时间:{rowData.service_time}</Text>
+                        <View style={styles.list_time}>
+                            <Text style={styles.list_color}>服务时间:{rowData.service_time}</Text>
+                        </View>
                     </View>
-                    <Text onPress={() => {
-                        console.log(this.props)
-                    }}>点击试一下呗</Text>
                 </View>
 
             </TouchableHighlight >
@@ -163,8 +162,10 @@ class WaitForConfirme extends React.Component {
                                 style={{fontSize: 17, fontWeight: '400', paddingRight: 20}}>{rowData.doctor_name}</Text>
                             <Text>{rowData.doctor_job_title}</Text>
                         </View>
-                        <Text>{rowData.address}</Text>
-                        <Text>服务时间:{rowData.service_time}</Text>
+                        <Text>{rowData.appointment_address}</Text>
+                        <View style={styles.list_time}>
+                            <Text style={styles.list_color}>服务时间:{rowData.service_time}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -243,7 +244,9 @@ class WaitForReferral extends React.Component {
                             <Text>{rowData.doctor_job_title}</Text>
                         </View>
                         <Text>{rowData.appointment_address}</Text>
-                        <Text>服务时间:{rowData.appointment_time}</Text>
+                        <View style={styles.list_time}>
+                            <Text style={styles.list_color}>建议复诊时间:{rowData.appointment_time}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -323,7 +326,9 @@ class WaitForPay extends React.Component {
                             <Text>{rowData.doctor_job_title}</Text>
                         </View>
                         <Text>{rowData.appointment_address}</Text>
-                        <Text>服务时间{rowData.appointment_time}</Text>
+                        <View style={styles.list_time}>
+                            <Text style={styles.list_color}>服务时间{rowData.appointment_time}</Text>
+                        </View>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -344,18 +349,24 @@ class WaitForPay extends React.Component {
     }
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
     list_frame: {
         width: width,
-        height: 130,
+        height: 120,
         borderTopWidth: 1,
+        borderColor: '#DCDCDC',
         flexDirection: 'row',
-        padding: 20,
+        backgroundColor:"#fff",
+        padding: 10,
+    },
+    list_time: {
+        borderWidth: 1,
+        borderColor: '#09a9ef',
+        width: 2 * width / 3,
+        padding: 2,
+        borderRadius: 5
+    },
+    list_color: {
+        color: '#09a9ef'
     },
     list_icon: {
         width: 100,
@@ -368,21 +379,18 @@ const MyServiceDoctor = TabNavigator({
         screen: Confirmed,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '已确认',
-            headerTitle: "我的服务",
+            title: "我的服务",
             headerTitleStyle: {
                 fontSize: 17,
                 alignSelf: 'center',
             },
-            // headerStyle: {
-            //     height: (Platform.OS === 'ios') ? 80 : 40,
-            // },
         }
     },
     WaitForConfirme: {
         screen: WaitForConfirme,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '待确认',
-            headerTitle: "我的服务",
+            title: "我的服务",
             headerTitleStyle: {
                 fontSize: 17,
                 alignSelf: 'center',
@@ -395,7 +403,7 @@ const MyServiceDoctor = TabNavigator({
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '待复诊',
 
-            headerTitle: "我的服务",
+            title: "我的服务",
             headerTitleStyle: {
                 fontSize: 17,
                 alignSelf: 'center',
@@ -407,8 +415,7 @@ const MyServiceDoctor = TabNavigator({
         screen: WaitForPay,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '待支付',
-            headerTitle: "我的服务",
-            // headerTintColor: '#000',
+            title: "我的服务",
             headerTitleStyle: {
                 fontSize: 17,
                 alignSelf: 'center',
@@ -422,11 +429,11 @@ const MyServiceDoctor = TabNavigator({
     swipeEnabled: true, // 是否可以左右滑动切换tab
     backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
     tabBarOptions: {
-        activeTintColor: '#d2b48c', // 文字和图片选中颜色
+        activeTintColor: '#d2691e', // 文字和图片选中颜色
         inactiveTintColor: '#999', // 文字和图片未选中颜色
         showIcon: false, // android 默认不显示 icon, 需要设置为 true 才会显示
         indicatorStyle: {
-            height: 0  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+            height: 1  // 如TabBar下面显示有一条线，可以设高度为0后隐藏
         },
         style: {
             backgroundColor: '#fff', // TabBar 背景色
