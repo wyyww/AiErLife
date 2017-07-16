@@ -39,7 +39,7 @@ export default class AiErLife extends Component {
         headerTitle:'爱尔生活',
         headerTintColor:'#000',
         headerTitleStyle:{
-            fontSize:18,
+            fontSize:17,
             alignSelf:'center',
         },
         headerStyle:{
@@ -48,7 +48,6 @@ export default class AiErLife extends Component {
             backgroundColor:'#fff',
         }
     })
-    // headerStyle
 
     constructor(props) {
         super(props);
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
         padding:10,
     },
     list_size:{
-        fontSize:17,
+        fontSize:15,
         fontWeight:'bold',
         paddingRight:20
     },
