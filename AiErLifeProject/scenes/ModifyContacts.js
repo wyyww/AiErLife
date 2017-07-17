@@ -51,10 +51,11 @@ export default class ModifyContacts extends Component {
             })
         })
         const prevParams = this.props.navigation.state;
+        console.log(prevParams)
         this.setState({
             address: prevParams.params.address,
             gender: prevParams.params.gender,
-            identity_card: prevParams.params.identity_card,
+            identity_card: prevParams.params.identity_card?prevParams.params.identity_card:prevParams.params.indentity_card,
             name: prevParams.params.name,
             phone: prevParams.params.phone,
             id: prevParams.params.id,
@@ -73,7 +74,7 @@ export default class ModifyContacts extends Component {
 
     render() {
         return (
-            <View >
+            <View style={styles.container}>
                 <View style={styles.selfMessage}>
                     <Text>姓名</Text>
                     <TextInput value={this.state.name}
@@ -133,7 +134,6 @@ export default class ModifyContacts extends Component {
     //修改用户信息
     _buttonClickModifyContactMessages() {
         let that = this;
-        // console.log(this.state.token)
         let params = {
             token: this.state.token,
             address: this.state.address,
@@ -144,12 +144,14 @@ export default class ModifyContacts extends Component {
             phone: this.state.phone
         }
 
+        console.log(params);
         NetUitl.post(API.APIList.user_patient_update, params, function (res) {
+            console.log(res)
             if (res.success == true) {
-                Alert.alert('修改成功')
+                Alert.alert('修改成功');
             }
             else {
-                Alert.alert('网络错误，请重试')
+                Alert.alert('网络错误，请重试');
             }
         })
     }
@@ -159,11 +161,15 @@ export default class ModifyContacts extends Component {
 
 
 const styles = StyleSheet.create({
+    container:{
+        backgroundColor:'#fff',
+    },
     selfMessage: {
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomWidth: 1,
         borderColor:'#DCDCDC',
+
         paddingLeft:20,
         width: width,
     },
