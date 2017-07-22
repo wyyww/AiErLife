@@ -73,7 +73,10 @@ class Confirmed extends React.Component {
 
     _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => this._onPressRow}>
+            <TouchableHighlight
+                activeOpacity={0.8}
+                underlayColor="#808080"
+                onPress={() => {}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri: rowData.doctor_head_url}} style={{width: 80, height: 80}}/>
@@ -95,9 +98,9 @@ class Confirmed extends React.Component {
         )
     }
 
-    _onPressRow() {
-        console.log(this.props);
-    }
+    // _onPressRow() {
+    //     console.log(this.props);
+    // }
 
     render() {
         return (
@@ -172,9 +175,10 @@ class WaitForConfirme extends React.Component {
 
     _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => {
-                this._onPressRow
-            }}>
+            <TouchableHighlight
+                activeOpacity={0.8}
+                underlayColor="#808080"
+                onPress={() => {}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri: rowData.patient_image_url}} style={{width: 80, height: 80}}/>
@@ -195,9 +199,9 @@ class WaitForConfirme extends React.Component {
         )
     }
 
-    _onPressRow() {
-        console.log('这是我的待确认，我厉害');
-    }
+    // _onPressRow() {
+    //     console.log('这是我的待确认，我厉害');
+    // }
 
     render() {
         return (
@@ -270,9 +274,9 @@ class WaitForReferral extends React.Component {
 
     _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => {
-                this._onPressRow
-            }}>
+            <TouchableHighlight      activeOpacity={0.8}
+                                 underlayColor="#808080"
+                                 onPress={() => {}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri: rowData.doctor_head_url}} style={{width: 80, height: 80}}/>
@@ -293,9 +297,9 @@ class WaitForReferral extends React.Component {
         )
     }
 
-    _onPressRow() {
-        console.log('这是我的待复诊，我厉害');
-    }
+    // _onPressRow() {
+    //     console.log('这是我的待复诊，我厉害');
+    // }
 
     render() {
         return (
@@ -370,9 +374,10 @@ class WaitForPay extends React.Component {
 
     _renderRow(rowData) {
         return (
-            <TouchableHighlight onPress={() => {
-                this._onPressRow
-            }}>
+            <TouchableHighlight
+                activeOpacity={0.8}
+                underlayColor="#808080"
+                onPress={() => {}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={require('../images/ben.png')} style={{width: 80, height: 80}}/>
@@ -393,9 +398,9 @@ class WaitForPay extends React.Component {
         )
     }
 
-    _onPressRow() {
-        console.log('这是我需要支付的页面，我厉害');
-    }
+    // _onPressRow() {
+    //     console.log('这是我需要支付的页面，我厉害');
+    // }
 
     render() {
         return (

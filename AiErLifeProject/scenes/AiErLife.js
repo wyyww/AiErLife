@@ -132,8 +132,8 @@ export default class AiErLife extends Component {
                         </View>
                     </View>
                 </View>
-                <View>
-                    <Text style={styles.divide_line}></Text>
+                <View style={styles.divide_line}>
+                    {/*<Text style={styles.divide_line}></Text>*/}
                 </View>
                 <View style={styles.doctor_top}>
                     <Text >名医联盟推荐医生</Text >
@@ -150,8 +150,10 @@ export default class AiErLife extends Component {
 
     _renderRow(rowData){
         return (
-            // onPress={this._onPressRow.bind(this)}
-            <TouchableHighlight >
+            <TouchableHighlight
+                activeOpacity={0.8}
+                underlayColor="#808080"
+                onPress={()=>{}}>
                 <View style={styles.list_frame}>
                     <View style={styles.list_icon}>
                         <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
@@ -168,9 +170,6 @@ export default class AiErLife extends Component {
             </TouchableHighlight >
         )
     }
-    // _onPressRow(){
-    //     console.log('sdfd');
-    // }
 }
 
 const styles = StyleSheet.create({

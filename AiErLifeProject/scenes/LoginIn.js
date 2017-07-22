@@ -147,11 +147,15 @@ export default class LoginIn extends Component {
                     </View>
                 </View>
                 <TouchableHighlight onPress={this._onButtonClickToAiErLife.bind(this)}
+                                    activeOpacity ={0.7}
+                                    underlayColor="#6495ed"
                                     style={[styles.btn, styles.topStatus]}>
                     <Text>登录</Text>
                 </TouchableHighlight>
                 <ActivityIndicator animating={this.state.animating} size={this.state.circleSize}/>
-                <TouchableHighlight accessibilityLabel="See an informative alert">
+                <TouchableHighlight
+                    accessibilityLabel="See an informative alert"
+                    activeOpacity ={0.7}>
                     <View style={styles.horizontal}>
                         <Text style={{color: '#808080'}}
                               onPress={this._onButtonClickToResetPossword.bind(this)}>忘记密码? </Text>
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
-        width: 2 * width / 3,
+        width: 3 * width / 4,
     },
     topLevelStatus: {
         marginTop: 50,
@@ -196,7 +200,6 @@ const styles = StyleSheet.create({
     userInput: {
         height: 40,
         color: '#808080',
-        // underlineColorAndroid="transparent"     让其底边框消失                
         marginLeft: 10,
     },
     Icon: {
@@ -210,7 +213,7 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     btn: {
-        width: 2 * width / 3,
+        width: 3 * width / 4,
         borderWidth: 1,
         borderColor: '#808080',
         height: 45,
