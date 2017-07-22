@@ -14,6 +14,7 @@ import {
     AsyncStorage,
     TouchableHighlight,
     TouchableOpacity,
+    RefreshControl
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { StackNavigator } from 'react-navigation';
@@ -37,12 +38,15 @@ export default class AiErClinic extends Component {
         AsyncStorage.getItem('myToken',(err,result)=>{
             // console.log(result);
             this.setState({myToken:result},()=>{
-               this._InitDoctorListRow();
+               this._onRefresh();
             })
 
         })
     }
-    _InitDoctorListRow(){
+    _onRefresh(){
+        this.setState({
+            isRefreshing:true,
+        })
         let that =this;
         let params={
             token:this.state.myToken,
@@ -50,7 +54,8 @@ export default class AiErClinic extends Component {
         NetUitl.get(API.APIList.all_hospital,params,function(response){
             //请求得到的医院信息
             that.setState({
-                dataSource:that.state.dataSource.cloneWithRows(response.result)
+                dataSource:that.state.dataSource.cloneWithRows(response.result),
+                isRefreshing:false,
             })
         })
     }
@@ -61,12 +66,14 @@ export default class AiErClinic extends Component {
         this.state = {
             myToken:'',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
 
     //跳转到某一个具提的诊室的详细介绍
     _onPressRow(data){
+
         const navigateAction=NavigationActions.navigate({
             routeName:'ClinicIntroduction',
             params:{hospital_id:data.id}
@@ -98,8 +105,22 @@ export default class AiErClinic extends Component {
         return (
             <View style={styles.container}>
                 <ListView
+                    initialListSize={10}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                             tintColor="#ff0000"
+                             title="Loading..."
+                             titleColor="#00ff00"
+                            colors={['#808080', '#ff0000', '#0000ff']}
+                            progressBackgroundColor="#DCDCDC"
+
+                        />
+                    }
+
                 />
             </View>
         );
@@ -127,6 +148,7 @@ const styles = StyleSheet.create({
         width:screenW,
         height:100,
         borderBottomWidth:1,
+        borderColor:'#DCDCDC',
         flexDirection:'row',
         padding:10,
     },
