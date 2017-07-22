@@ -14,7 +14,8 @@ import {
     Image,
     ListView,
     TouchableHighlight,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 // 获取屏幕宽度
@@ -33,6 +34,15 @@ export default class ClinicIntroduction extends Component {
 
     static navigationOptions={
         headerTitle:'诊室',
+        headerTintColor:'#000',
+        headerTitleStyle:{
+            fontSize:17,
+        },
+        headerStyle:{
+            width:width,
+            height: (Platform.OS === 'ios') ? 80 : 40,
+            backgroundColor:'#fff',
+        }
     };
 
     componentWillMount(){
@@ -218,6 +228,6 @@ const styles = StyleSheet.create({
     },
     divide_line:{
         height:10,
-        backgroundColor:'#B0C4DE',
+        backgroundColor:'#D3D3D3',
     }
 });

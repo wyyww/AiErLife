@@ -11,7 +11,9 @@ import {
     TextInput,
     ListView,
     AsyncStorage,
-    TouchableHighlight
+    TouchableHighlight,
+    RefreshControl,
+    Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
@@ -26,7 +28,16 @@ import API from './plugins/API';
 export default class ClinicDetails extends Component {
 
     static navigationOptions={
-        title:'艾尔诊所后宰门诊室',
+        headerTitle:'诊室',
+        headerTintColor:'#000',
+        headerTitleStyle:{
+            fontSize:17,
+        },
+        headerStyle:{
+            width:width,
+            height: (Platform.OS === 'ios') ? 80 : 40,
+            backgroundColor:'#fff',
+        }
     };
 
     constructor(props){
@@ -38,6 +49,7 @@ export default class ClinicDetails extends Component {
             token:'',
             dataSource: ds,
             doctor_id:'',
+            isRefreshing:false,
         };
     }
 
@@ -53,12 +65,15 @@ export default class ClinicDetails extends Component {
             this.setState({
                 token:result,
             },()=>{
-                this._getClinicDetails();
+                this._onRefresh();
             })
         })
      }
 
-        _getClinicDetails(){
+    _onRefresh(){
+        this.setState({
+            isRefreshing:true,
+        })
         let that=this;
         let params={
             token:this.state.token,
@@ -67,9 +82,10 @@ export default class ClinicDetails extends Component {
         }
         NetUitl.get(API.APIList.speciality_of_hospital,params,function(response){
             let res=response.result;
-            // console.log(res)
+            // console.log(res);
             that.setState({
                 dataSource:that.state.dataSource.cloneWithRows(res),
+                isRefreshing:false,
             })
         })
     }
@@ -81,10 +97,10 @@ export default class ClinicDetails extends Component {
                     <View style={styles.list_icon}>
                         <Image source={{uri:rowData.head_url}} style={{width:80,height:80}}/>
                     </View>
-                    <View style={{paddingLeft:3}}>
-                        <Text style={{fontSize:17,fontWeight:'400',paddingRight:20}}>{rowData.name}</Text>
-                        <Text>{rowData.hospital_name}{rowData.id}</Text>
-                        <Text>{rowData.introducation}</Text>
+                    <View>
+                        <Text style={{fontSize:16,fontWeight:'600',paddingRight:20}}>{rowData.name}</Text>
+                        <Text style={styles.line_padding}>{rowData.hospital_name}{rowData.id}</Text>
+                        <Text style={styles.line_padding}>{rowData.introducation}</Text>
                     </View>
                 </View>
             </TouchableHighlight >
@@ -110,6 +126,18 @@ export default class ClinicDetails extends Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
@@ -118,12 +146,15 @@ export default class ClinicDetails extends Component {
 const styles = StyleSheet.create({
     list_frame:{
         width:width,
-        height:110,
         borderBottomWidth:1,
+        borderColor:'#DCDCDC',
         flexDirection:'row',
-        padding:15,
+        padding:10,
+    },
+    line_padding:{
+        padding:7
     },
     list_icon:{
-        width:100,
+        padding:10
     }
 });

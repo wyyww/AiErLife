@@ -14,6 +14,7 @@ import {
     AsyncStorage,
     TouchableHighlight,
     TouchableOpacity,
+    Platform,
     RefreshControl
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -21,7 +22,7 @@ import { StackNavigator } from 'react-navigation';
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
-const screenW = Dimensions.get('window').width;
+const {width,height} = Dimensions.get('window');
 
 //网络请求组件
 import NetUitl from './plugins/NetUitl';
@@ -31,7 +32,16 @@ import API from './plugins/API';
 export default class AiErClinic extends Component {
 
     static navigationOptions = {
-        title: '爱尔诊所',
+        headerTitle:'诊室',
+        headerTintColor:'#000',
+        headerTitleStyle:{
+            fontSize:17,
+        },
+        headerStyle:{
+            width:width,
+            height: (Platform.OS === 'ios') ? 80 : 40,
+            backgroundColor:'#fff',
+        }
     };
 
     componentDidMount(){
@@ -145,7 +155,7 @@ const styles = StyleSheet.create({
         color:'white',
     },
     list_frame:{
-        width:screenW,
+        width:width,
         height:100,
         borderBottomWidth:1,
         borderColor:'#DCDCDC',
