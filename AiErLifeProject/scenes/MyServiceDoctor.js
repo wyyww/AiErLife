@@ -10,6 +10,7 @@ import {
     Image,
     TouchableHighlight,
     AsyncStorage,
+    RefreshControl
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import {TabNavigator} from "react-navigation";
@@ -30,6 +31,7 @@ class Confirmed extends React.Component {
             token: '',
             normal_user_id: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -45,12 +47,15 @@ class Confirmed extends React.Component {
             this.setState({
                 token: res,
             }, () => {
-                this._refreshData();
+                this._onRefresh();
             })
         })
     }
 
-    _refreshData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -60,6 +65,7 @@ class Confirmed extends React.Component {
         NetUitl.get(API.APIList.normal_user_confirmed, params, function (res) {
             // console.log(res);
             that.setState({
+                isRefreshing:false,
                 dataSource: that.state.dataSource.cloneWithRows(res.result)
             })
         })
@@ -98,6 +104,18 @@ class Confirmed extends React.Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
@@ -112,6 +130,7 @@ class WaitForConfirme extends React.Component {
             token: '',
             normal_user_id: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -127,12 +146,15 @@ class WaitForConfirme extends React.Component {
             this.setState({
                 token: res,
             }, () => {
-                this._refreshData();
+                this._onRefresh();
             })
         })
     }
 
-    _refreshData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -142,6 +164,7 @@ class WaitForConfirme extends React.Component {
         NetUitl.get(API.APIList.normal_user_unconfirmed, params, function (res) {
             // console.log(res);
             that.setState({
+                isRefreshing:false,
                 dataSource: that.state.dataSource.cloneWithRows(res.result)
             })
         })
@@ -181,6 +204,18 @@ class WaitForConfirme extends React.Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
@@ -193,6 +228,7 @@ class WaitForReferral extends React.Component {
             token: '',
             normal_user_id: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -208,12 +244,15 @@ class WaitForReferral extends React.Component {
             this.setState({
                 token: res,
             }, () => {
-                this._refreshData();
+                this._onRefresh();
             })
         })
     }
 
-    _refreshData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -223,6 +262,7 @@ class WaitForReferral extends React.Component {
         NetUitl.get(API.APIList.normal_user_paid, params, function (res) {
             // console.log(res);
             that.setState({
+                isRefreshing:false,
                 dataSource: that.state.dataSource.cloneWithRows(res.result)
             })
         })
@@ -262,12 +302,25 @@ class WaitForReferral extends React.Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
 }
 
 class WaitForPay extends React.Component {
+
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -275,6 +328,7 @@ class WaitForPay extends React.Component {
             token: '',
             normal_user_id: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -290,12 +344,15 @@ class WaitForPay extends React.Component {
             this.setState({
                 token: res,
             }, () => {
-                this._refreshData();
+                this._onRefresh();
             })
         })
     }
 
-    _refreshData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -305,6 +362,7 @@ class WaitForPay extends React.Component {
         NetUitl.get(API.APIList.normal_user_unpaid, params, function (res) {
             // console.log(res);
             that.setState({
+                isRefreshing:false,
                 dataSource: that.state.dataSource.cloneWithRows(res.result)
             })
         })
@@ -344,6 +402,18 @@ class WaitForPay extends React.Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
@@ -402,7 +472,6 @@ const MyServiceDoctor = TabNavigator({
         screen: WaitForReferral,
         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '待复诊',
-
             title: "我的服务",
             headerTitleStyle: {
                 fontSize: 17,
