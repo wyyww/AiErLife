@@ -51,7 +51,7 @@ export default class ModifyContacts extends Component {
             })
         })
         const prevParams = this.props.navigation.state;
-        console.log(prevParams)
+        // console.log(prevParams)
         this.setState({
             address: prevParams.params.address,
             gender: prevParams.params.gender,

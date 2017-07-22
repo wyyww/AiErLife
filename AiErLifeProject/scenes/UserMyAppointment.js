@@ -8,7 +8,8 @@ import {
     TextInput,
     ListView,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    RefreshControl
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import {TabNavigator} from "react-navigation";
@@ -31,6 +32,7 @@ class MyAppointmentUnPaid extends Component {
             token: '',
             normal_user_id: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -46,12 +48,15 @@ class MyAppointmentUnPaid extends Component {
             this.setState({
                 token: res,
             }, () => {
-                this._freshingData()
+                this._onRefresh()
             })
         });
     }
 
-    _freshingData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -61,7 +66,8 @@ class MyAppointmentUnPaid extends Component {
             let res = response.result;
             // console.log(res);
             that.setState({
-                dataSource: that.state.dataSource.cloneWithRows(res)
+                dataSource: that.state.dataSource.cloneWithRows(res),
+                isRefreshing:false,
             })
         })
     }
@@ -94,6 +100,18 @@ class MyAppointmentUnPaid extends Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
@@ -109,6 +127,7 @@ class MyAppointmentAlreadyPaid extends Component {
             normal_user_id: '',
             token: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -124,12 +143,15 @@ class MyAppointmentAlreadyPaid extends Component {
             this.setState({
                 token: res,
             }, () => {
-                this._freshingData()
+                this._onRefresh()
             })
         });
     }
 
-    _freshingData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             token: this.state.token,
@@ -139,6 +161,7 @@ class MyAppointmentAlreadyPaid extends Component {
             let res = response.result;
             // console.log(res);
             that.setState({
+                isRefreshing:false,
                 dataSource: that.state.dataSource.cloneWithRows(res)
             })
         })
@@ -172,6 +195,18 @@ class MyAppointmentAlreadyPaid extends Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }

@@ -9,7 +9,8 @@ import {
     ListView,
     Image,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    RefreshControl
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 
@@ -47,6 +48,7 @@ export default class FamilyContactPerson extends Component {
             normal_user_id: '',
             token: '',
             dataSource: ds,
+            isRefreshing:false,
         };
     }
 
@@ -61,13 +63,16 @@ export default class FamilyContactPerson extends Component {
             this.setState({
                 token: res,
             }, () => {
-                this._onFreshData()
+                this._onRefresh()
             })
         })
 
     }
 
-    _onFreshData() {
+    _onRefresh() {
+        this.setState({
+            isRefreshing:true,
+        })
         let that = this;
         let params = {
             normal_user_id: this.state.normal_user_id,
@@ -76,7 +81,8 @@ export default class FamilyContactPerson extends Component {
         NetUitl.get(API.APIList.user_patient_list, params, function (response) {
             let res = response.result;
             that.setState({
-                dataSource: that.state.dataSource.cloneWithRows(res)
+                dataSource: that.state.dataSource.cloneWithRows(res),
+                isRefreshing:false,
             })
 
         })
@@ -115,6 +121,18 @@ export default class FamilyContactPerson extends Component {
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this._renderRow.bind(this)}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                        tintColor="#ff0000"
+                        title="Loading..."
+                        titleColor="#00ff00"
+                        colors={['#808080', '#ff0000', '#0000ff']}
+                        progressBackgroundColor="#ffffff"
+
+                    />
+                }
             />
         );
     }
