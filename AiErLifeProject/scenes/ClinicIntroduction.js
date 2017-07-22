@@ -26,8 +26,9 @@ import NetUitl from './plugins/NetUitl';
 import API from './plugins/API';
 
 import Icon_address from '../images/icon_address.png';
-import Icon_common_rightarrow from '../images/icon_common_rightarrow.png'
-import Icon_phone from '../images/icon_phone.png'
+import Icon_common_rightarrow from '../images/icon_common_rightarrow.png';
+import Icon_phone from '../images/icon_phone.png';
+import Icon_right_blue from '../images/icon_right_blue.png';
 export default class ClinicIntroduction extends Component {
 
     static navigationOptions={
@@ -94,8 +95,8 @@ export default class ClinicIntroduction extends Component {
         return (
             <TouchableHighlight onPress={this._onPressRow.bind(this,rowID,sectionID)}>
                 <View style={styles.list_frame}>
-                        <View style={{flexDirection:'row',}}>
-                            <Text style={[styles.text_container,{fontSize:15,fontWeight:'400',paddingRight:20}]}>{rowData.name}</Text>
+                        <View style={{flexDirection:'row',padding:8}}>
+                            <Text style={[{fontSize:17,fontWeight:'bold',paddingRight:20}]}>{rowData.name}</Text>
                             <Text>{rowData.doctor_count}位三甲医生</Text>
                         </View>
                         <View  style={styles.list_btn}  >
@@ -124,7 +125,9 @@ export default class ClinicIntroduction extends Component {
                     <Image source={{uri:this.state.clinicImage}} style={styles.icon_container}/>
                     <Text style={styles.text_container}>{this.state.clinicName}</Text>
                     <View style={[styles.text_row,{justifyContent:'flex-start'}]}>
+                        <Image source={Icon_right_blue} style={styles.icon_small_title}/>
                         <Text>三甲名医出诊</Text>
+                        <Image source={Icon_right_blue} style={styles.icon_small_title}/>
                         <Text> 勿过无度医疗</Text>
                     </View>
                     <TouchableHighlight  onPress={()=>this.props.navigation.navigate('ClinicAddress',{latitude:this.state.latitude,longitude:this.state.longitude,address:this.state.clinicAddress})}>
@@ -144,17 +147,22 @@ export default class ClinicIntroduction extends Component {
                         <Image  source={Icon_common_rightarrow} style={styles.icon_small_title} />
                     </View>
                 </View>
-                <View style={[styles.text_row,styles.module_padding_view,{justifyContent:'flex-start'}]}>
-                    <Text>科室</Text>
-                    <Text style={{color:'#00ffff'}}>(点击科室选择医生进行门诊预约)</Text>
-                </View>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow.bind(this)}
-                />
-                <View style={[styles.module_padding_view]}>
-                    <Text>诊所介绍</Text>
-                    <Text>艾尔诊所是爱而生活集团旗下，高品质专业口腔诊所，诊所坐镇专家团队均有当地三家医生主任即副主任医师组成，艾尔诊所可为诊所提供和线上线下专业诊疗方案</Text>
+                <View style={styles.module_view}>
+                    <View style={[styles.text_row,styles.module_padding_view,{justifyContent:'flex-start'}]}>
+                        <Text>科室&nbsp;&nbsp;</Text>
+                        <Text style={{color:'#00ced1'}}>(点击科室选择医生进行门诊预约)</Text>
+                    </View>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this._renderRow.bind(this)}
+                    />
+                    <View style={styles.divide_line}/>
+                    <View style={[styles.text_row,styles.module_padding_view,{justifyContent:'flex-start'}]}>
+                        <Text>诊所介绍</Text>
+                    </View>
+                    <View style={[styles.module_padding_view]}>
+                        <Text>&nbsp;&nbsp;艾尔诊所是爱而生活集团旗下，高品质专业口腔诊所，诊所坐镇专家团队均有当地三家医生主任即副主任医师组成，艾尔诊所可为诊所提供和线上线下专业诊疗方案</Text>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -163,7 +171,6 @@ export default class ClinicIntroduction extends Component {
 
 const styles = StyleSheet.create({
     module_frame:{
-        marginLeft:10,
         marginBottom:10,
         backgroundColor:'white',
     },
@@ -171,40 +178,46 @@ const styles = StyleSheet.create({
         width:width,
         height:150,
         paddingBottom:10,
-        // resizeMode:'cover'
     },
     text_container:{
-        marginTop:5,
-        marginBottom:5,
+        padding:10,
         fontSize:15,
         fontWeight:'600',
     },
     text_row:{
         flexDirection:'row',
         justifyContent:'space-between',
+        padding:10,
         alignItems:'center',
-        height:30,
     },
     icon_small_title:{
-        width:20,
-        height:20,
+        width:15,
+        height:15,
     },
     list_btn:{
         flexDirection:'row',
         justifyContent:'space-between',
     },
     text_color:{
-        width:width-50,
+        paddingLeft:10,
+        width:width*4/5,
     },
     list_frame:{
         width:width,
-        borderBottomWidth:1,
+        borderTopWidth:1,
+        borderColor:'#DCDCDC',
         padding:10,
     },
+    module_view:{
+      backgroundColor:'#fff',
+    },
     module_padding_view:{
-        padding:5,
+        padding:10,
         borderTopWidth:1,
-        borderBottomWidth:1,
-        marginTop:15,
+        borderColor:'#DCDCDC',
+    },
+    divide_line:{
+        height:10,
+        backgroundColor:'#B0C4DE',
     }
 });

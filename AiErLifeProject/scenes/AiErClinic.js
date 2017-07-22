@@ -116,7 +116,7 @@ export default class AiErClinic extends Component {
                              title="Loading..."
                              titleColor="#00ff00"
                             colors={['#808080', '#ff0000', '#0000ff']}
-                            progressBackgroundColor="#DCDCDC"
+                            progressBackgroundColor="#ffffff"
 
                         />
                     }
