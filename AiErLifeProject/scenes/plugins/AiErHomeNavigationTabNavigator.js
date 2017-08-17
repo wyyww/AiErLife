@@ -50,7 +50,7 @@ const AiErHomeNavigationTabNavigator = TabNavigator({
     },
     MyServiceDoctor: {
         screen: MyServiceDoctor,
-        navigationOptions: {  // 也可以写在组件的static navigationOptions内
+         navigationOptions: {  // 也可以写在组件的static navigationOptions内
             tabBarLabel: '我的服务',
             tabBarIcon: ({tintColor, focused}) => (
                 focused

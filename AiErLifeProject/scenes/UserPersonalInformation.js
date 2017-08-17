@@ -17,6 +17,14 @@ import {
 import { NavigationActions } from 'react-navigation';
 import { StackNavigator } from 'react-navigation';
 
+import Head from '../images/head.jpg';
+import Icon_edit from '../images/icon_edit.png';
+import Icon_password_red from '../images/icon_password_red.png';
+import Icon_appointment from '../images/icon_appointment.png';
+import Icon_people from '../images/icon_people.png';
+import Icon_message from '../images/icon_message.png';
+import Icon_info from '../images/icon_info.png'
+
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
 const {width,height} = Dimensions.get('window');
@@ -26,13 +34,7 @@ import NetUitl from './plugins/NetUitl';
 import API from './plugins/API'
 import ItemCell from './plugins/ItemCell';
 
-import Head from '../images/head.jpg';
-import Icon_edit from '../images/icon_edit.png';
-import Icon_password_red from '../images/icon_password_red.png';
-import Icon_appointment from '../images/icon_appointment.png';
-import Icon_people from '../images/icon_people.png';
-import Icon_message from '../images/icon_message.png';
-import Icon_info from '../images/icon_info.png'
+
 export default class UserPersonalInformation extends Component {
 
     static navigationOptions={

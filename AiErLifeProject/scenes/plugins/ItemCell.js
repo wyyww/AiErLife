@@ -14,8 +14,7 @@ import {
     PixelRatio,
     TouchableHighlight
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import { StackNavigator } from 'react-navigation';
+
 
 export default class ItemCell extends Component{
 
