@@ -23,7 +23,7 @@ import Icon_password_red from '../images/icon_password_red.png';
 import Icon_appointment from '../images/icon_appointment.png';
 import Icon_people from '../images/icon_people.png';
 import Icon_message from '../images/icon_message.png';
-import Icon_info from '../images/icon_info.png'
+import Icon_info from '../images/icon_info.png';
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
@@ -38,7 +38,7 @@ import ItemCell from './plugins/ItemCell';
 export default class UserPersonalInformation extends Component {
 
     static navigationOptions={
-       headerTitle:'个人中心',
+        headerTitle:'个人中心',
         headerTintColor:'#000',
         headerTitleStyle:{
             fontSize:17,
@@ -49,7 +49,6 @@ export default class UserPersonalInformation extends Component {
             height: (Platform.OS === 'ios') ? 80 : 40,
             backgroundColor:'#fff',
         }
-
     };
     constructor(props){
         super(props);

@@ -61,9 +61,6 @@ export default class ClinicAddress extends Component {
         };
     }
 
-    componentDidMount() {
-
-    }
 
     render() {
         return (

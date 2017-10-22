@@ -20,7 +20,8 @@ import API from './plugins/API';
 
 // 获取屏幕宽度
 var Dimensions = require('Dimensions');
-const screenW = Dimensions.get('window').width;
+const screenW = Dimensions.get('w
+indow').width;
 
 //我的预约中未付款的
 class MyAppointmentUnPaid extends Component {

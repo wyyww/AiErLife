@@ -63,7 +63,6 @@ export default class ModifyUserPersonalCenter extends Component {
                         gender: res.result.gender,
                         address: res.result.address,
                     });
-
                 });
             });
         })
