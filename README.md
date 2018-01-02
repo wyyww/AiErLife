@@ -4,5 +4,6 @@
 
 # 项目执行步骤
 
-npm install 
-react-native run android 
+# npm install 
+
+# react-native run android 
